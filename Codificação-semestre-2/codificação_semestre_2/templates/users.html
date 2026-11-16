@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
+    <title>Lista de Tutores</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>NIS</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Bom dia</td>
+                <td>Vai Japão</td>
+                <td>Vai Curintia</td>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{user.nome_tutor}}</td>
+                <td>{{user.telefone_tutor}}</td>
+                <td>{{user.nis_tutor}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

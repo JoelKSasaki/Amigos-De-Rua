@@ -1,0 +1,17 @@
+table{
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td{
+    border: 3px solid orangered;
+    padding: 10px 15px;
+    font-size: 20px;
+}
+
+th{
+    border: 3px solid orangered;
+    padding: 15px 10px;
+    font-size: 30px;
+}

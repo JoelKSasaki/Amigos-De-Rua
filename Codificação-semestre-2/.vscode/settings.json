@@ -1,0 +1,6 @@
+{
+    "python-envs.defaultEnvManager": "ms-python.python:system",
+    "python.defaultInterpreterPath": "/home/joellinton/.cache/pypoetry/virtualenvs/codificação-semestre-2-Uig-tiMp-py3.12/bin/python",
+    "python.analysis.extraPaths": ["./src", "./lib"],
+    "python.analysis.diagnosticMode": "workspace"
+}
