@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Miau Uau Pet Shop | Painel</title>
+  <script src="{{url_for('static', filename='js/tema.js')}}" ></script>
+  <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+  <script src="{{url_for('static', filename='js/aplicacao.js')}}" defer></script>
+  </head>
+  <body data-pagina="inicio">
+    <!-- Cabeçalho da área de gestão do pet shop -->
+    <header class="barra-superior">
+      <a
+        class="marca"
+        href="{{url_for ('welcome')}}"
+        aria-label="Miau Uau Pet Shop, tela de boas-vindas"
+      >
+        <img
+          src="{{url_for('static', filename='Miau-uau.jpeg')}}"
+          alt="Logo Miau Uau Pet Shop"
+        />
+      </a>
+      <nav class="navegacao" aria-label="Navegação principal">
+        <a class="link-navegacao ativo" href="{{url_for ('pag_inicial')}}">Início</a>
+        <a class="link-navegacao" href="{{url_for ('pets_cadastrados')}}">Cadastros</a>
+        <a class="link-navegacao" href="{{url_for ('procedimentos_totais')}}"
+          >Procedimentos</a
+        >
+        <a class="link-navegacao" href="{{url_for ('novos_pets')}}">Novo cadastro</a>
+        <a class="link-navegacao" href="{{url_for ('novos_procedimentos')}}">Novo procedimento</a>
+      </nav>
+      <button
+        class="botao-tema"
+        type="button"
+        data-alternar-tema
+        aria-label="Ativar modo noturno"
+      >
+        <span aria-hidden="true">☾</span
+        ><span class="texto-tema">Modo noturno</span>
+      </button>
+      <button class="perfil" type="button" aria-label="Perfil do proprietário">
+        DP
+      </button>
+    </header>
+
+    <main class="pagina pagina-inicio">
+      <!-- Resumo do painel de trabalho -->
+      <section class="boas-vindas">
+        <div>
+          <p class="sobretitulo">GESTÃO DO PET SHOP</p>
+          <h1>Olá! O que vamos fazer hoje?</h1>
+          <p class="texto-suave">
+            Consulte pacientes, atualize cadastros e registre procedimentos.
+          </p>
+        </div>
+        <div class="estado-unidade">
+          <span class="ponto-aberto"></span> Unidade aberta
+          <span class="separador-data"></span> Hoje,
+          <span data-data-atual></span>
+        </div>
+      </section>
+
+      <!-- Busca e lista de pacientes cadastrados -->
+      <label class="campo-busca">
+        <span aria-hidden="true">⌕</span>
+        <input
+          id="busca-pacientes"
+          type="search"
+          placeholder="Pesquisar por nome ou número do cadastro..."
+          aria-label="Pesquisar pacientes"
+        />
+      </label>
+
+      <section id="pacientes" class="cabecalho-secao">
+        <div>
+          <h2>Cadastros recentes</h2>
+          <p class="texto-suave">
+            Acesse o cadastro completo ou inicie um procedimento.
+          </p>
+        </div>
+        <a class="link-texto" href="#pacientes"
+          >Ver todos os pacientes <span>→</span></a
+        >
+      </section>
+
+      <section
+        id="grade-pacientes"
+        class="grade-pacientes"
+        aria-label="Pacientes cadastrados"
+      ></section>
+      <p id="mensagem-sem-pacientes" class="mensagem-vazia" hidden>
+        Nenhum paciente encontrado.
+      </p>
+
+      <!-- Procedimentos mais recentes em duas colunas -->
+      <section class="cabecalho-secao cabecalho-procedimentos">
+        <div>
+          <h2>Procedimentos recentes</h2>
+          <p class="texto-suave">
+            Acompanhe os últimos atendimentos da equipe.
+          </p>
+        </div>
+        <a class="link-texto" href="{{url_for ('procedimentos_totais')}}"
+          >Ver todos os procedimentos <span>→</span></a
+        >
+      </section>
+      <section
+        id="grade-procedimentos-recentes"
+        class="grade-procedimentos-recentes"
+        aria-label="Procedimentos recentes"
+      ></section>
+      <p id="mensagem-sem-procedimento-recente" class="mensagem-vazia" hidden>
+        Ainda não há procedimentos para mostrar.
+      </p>
+
+      <!-- Ações principais para o proprietário e a equipe -->
+      <section class="atalhos-paginas" aria-label="Ações de gestão">
+        <a class="botao botao-contorno" href="{{url_for ('pets_cadastrados')}}"
+          >☷ Todos os cães</a
+        >
+        <a class="botao botao-contorno" href="{{url_for ('procedimentos_totais')}}"
+          >☷ Todos os procedimentos</a
+        >
+        <a class="botao botao-laranja" href="{{url_for ('novos_pets')}}">＋ Novo cadastro</a>
+        <a class="botao botao-laranja" href="{{url_for ('novos_procedimentos')}}">
+          <span class="icone-adicionar" aria-hidden="true">+</span>&nbsp; Novo
+          procedimento
+        </a>
+      </section>
+    </main>
+  </body>
+</html>

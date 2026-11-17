@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Miau Uau Pet Shop | Todos os pacientes</title>
+  <script src="{{url_for('static', filename='js/tema.js')}}" ></script>
+  <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+  <script src="{{url_for('static', filename='js/aplicacao.js')}}" defer></script>
+</head>
+<body data-pagina="todos-cadastros">
+  <!-- Cabeçalho da área de gestão -->
+  <header class="barra-superior">
+    <a class="marca" href="{{url_for ('welcome')}}" aria-label="Miau Uau Pet Shop, tela de boas-vindas">
+      <img src="{{url_for('static', filename='Miau-uau.jpeg')}}" alt="Logo Miau Uau Pet Shop">
+    </a>
+    <nav class="navegacao" aria-label="Navegação principal">
+      <a class="link-navegacao" href="{{url_for ('pag_inicial')}}">Início</a>
+      <a class="link-navegacao ativo" href="{{url_for ('pets_cadastrados')}}">Cadastros</a>
+      <a class="link-navegacao" href="{{url_for ('procedimentos_totais')}}">Procedimentos</a>
+      <a class="link-navegacao" href="{{url_for ('novos_pets')}}">Novo cadastro</a>
+      <a class="link-navegacao" href="{{url_for ('novos_procedimentos')}}">Novo procedimento</a>
+    </nav>
+    <button class="botao-tema" type="button" data-alternar-tema aria-label="Ativar modo noturno">
+      <span aria-hidden="true">☾</span><span class="texto-tema">Modo noturno</span>
+    </button>
+    <button class="perfil" type="button" aria-label="Perfil do proprietário">DP</button>
+  </header>
+
+  <!-- Busca e ordenação de todos os cadastros -->
+  <main class="pagina pagina-todos-pacientes">
+    <section class="cabecalho-todos-pacientes">
+      <div class="titulo-pagina">
+        <h1>Todos os cães</h1>
+        <p class="texto-suave">Consulte os cães cadastrados no sistema, filtre por características e acesse a ficha individual.</p>
+      </div>
+      <a class="botao botao-laranja botao-novo-cadastro-lista" href="{{url_for ('novos_pets')}}">＋ Novo cadastro</a>
+    </section>
+    <section class="painel-filtros-cadastros" aria-label="Filtros de cadastro">
+      <label class="campo-busca campo-busca-lista">
+        <span aria-hidden="true">⌕</span>
+        <input id="busca-todos-pacientes" type="search" placeholder="Pesquisar por nome ou ID..." aria-label="Pesquisar por nome ou ID">
+      </label>
+      <div class="grupos-filtros-cadastros">
+        <div class="grupo-segmentado" data-filtro="sexo" role="group" aria-label="Filtrar por sexo">
+          <span>SEXO</span><button type="button" data-valor="" aria-pressed="true">Todos</button>
+          <button type="button" data-valor="Macho" aria-pressed="false">Macho</button><button type="button" data-valor="Fêmea" aria-pressed="false">Fêmea</button>
+        </div>
+        <div class="grupo-segmentado" data-filtro="porte" role="group" aria-label="Filtrar por porte">
+          <span>PORTE</span><button type="button" data-valor="" aria-pressed="true">Todos</button>
+          <button type="button" data-valor="Mini" aria-pressed="false">Mini</button><button type="button" data-valor="Pequeno" aria-pressed="false">Pequeno</button>
+          <button type="button" data-valor="Médio" aria-pressed="false">Médio</button><button type="button" data-valor="Grande" aria-pressed="false">Grande</button>
+          <button type="button" data-valor="Gigante" aria-pressed="false">Gigante</button>
+        </div>
+        <div class="grupo-segmentado" data-filtro="castracao" role="group" aria-label="Filtrar por castração">
+          <span>CASTRAÇÃO</span><button type="button" data-valor="" aria-pressed="true">Todos</button>
+          <button type="button" data-valor="Sim" aria-pressed="false">Sim</button><button type="button" data-valor="Não" aria-pressed="false">Não</button>
+        </div>
+      </div>
+      <button id="limpar-filtros-cadastros" class="botao-limpar-filtros" type="button">⌫ Limpar filtros</button>
+    </section>
+    <section class="resumo-lista-cadastros">
+      <p id="contagem-todos-pacientes" aria-live="polite">Exibindo cadastros</p>
+      <label class="ordenacao-cadastros">Ordenação
+        <select id="ordem-pacientes">
+          <option value="recentes">Mais recentes</option>
+          <option value="antigos">Mais antigos</option>
+        </select>
+      </label>
+    </section>
+    <p id="mensagem-sem-pacientes" class="mensagem-vazia" hidden>Nenhum paciente encontrado.</p>
+    <section id="lista-todos-pacientes" class="grade-pacientes grade-pacientes-todos" aria-label="Todos os pacientes"></section>
+  </main>
+</body>
+</html>

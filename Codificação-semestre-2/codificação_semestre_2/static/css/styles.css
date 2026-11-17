@@ -1,0 +1,2494 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+
+/* ==================== Cores, medidas e fontes ==================== */
+:root {
+  color-scheme: light;
+  /* Destaque roxo: títulos de seção, links ativos e valores especiais. */
+  --cor-destaque: #56358b;
+  --cor-destaque-escura: #40216f;
+  --cor-destaque-suave: #eee7fa;
+  --cor-acao: #f05a0a;
+  --cor-acao-hover: #d84b00;
+  /* Fundo da página e branco compartilhado por cartões, campos e texto em botões. */
+  --cor-fundo: #f8f7fb;
+  --branco: #ffffff;
+  --cor-fundo-cartao: var(--branco);
+  --cor-fundo-campo: var(--branco);
+  --cor-transparente: transparent;
+  /* Texto padrão, texto de apoio, rótulos e dicas de preenchimento. */
+  --cor-texto: #292432;
+  --cor-texto-secundario: #5f5969;
+  --cor-texto-placeholder: var(--cor-texto-secundario);
+  /* Bordas de cartões/campos e sombras padrão, hover, foco e botões de ação. */
+  --cor-borda: #d7d1df;
+  --cor-borda-forte: #b8a9cb;
+  /* Cores decorativas dos avatares de exemplo. */
+  --cor-avatar-creme: #fff1e3;
+  --cor-avatar-areia: #eee4d8;
+  --cor-avatar-pessego: #ffe8df;
+  --cor-avatar-lilas: #eee2ff;
+  --cor-avatar-mel: #fff0cb;
+  --cor-sexo-femea: #e65399;
+  --cor-sexo-macho: #4386d4;
+  --cor-sucesso: #53b987;
+  --cor-sombra: 0 5px 18px rgb(43 25 72 / 5%);
+  --cor-sombra-hover: 0 10px 24px rgb(43 25 72 / 12%);
+  --cor-sombra-foco: 0 0 0 3px rgb(86 53 139 / 16%);
+  --cor-sombra-acao: 0 4px 10px rgb(240 90 10 / 18%);
+  --raio-pequeno: 10px;
+  --raio-medio: 16px;
+  --raio-grande: 22px;
+  --espaco-1: 8px;
+  --espaco-2: 12px;
+  --espaco-3: 16px;
+  --espaco-4: 22px;
+  --espaco-5: 30px;
+  /* A mesma distância lateral é usada pelo cabeçalho e por todas as páginas. */
+  --margem-lateral: clamp(16px, 4vw, 64px);
+  /* Escala tipográfica única: rótulos, texto, subtítulos e títulos. */
+  --tamanho-fonte-1: 12px;
+  --tamanho-fonte-2: 12px;
+  --tamanho-fonte-3: 16px;
+  --tamanho-fonte-4: 16px;
+  --tamanho-fonte-5: 24px;
+  --tamanho-fonte-6: 24px;
+  --tamanho-fonte-7: 32px;
+  --fonte-texto: 'Montserrat', Arial, sans-serif;
+  --fonte-titulo: 'Montserrat', Arial, sans-serif;
+}
+
+/* ==================== Paleta do modo noturno ==================== */
+:root[data-tema="escuro"] {
+  color-scheme: dark;
+  --cor-destaque: #c6a6ff;
+  --cor-destaque-escura: #e1d2ff;
+  --cor-destaque-suave: #382a4e;
+  --cor-acao: #ff8b49;
+  --cor-acao-hover: #e66b2c;
+  --cor-fundo: #17141d;
+  --cor-fundo-cartao: #211d29;
+  --cor-fundo-campo: #302b39;
+  --cor-texto: #f3eef8;
+  --cor-texto-secundario: #d0c9d9;
+  --cor-texto-placeholder: var(--cor-texto-secundario);
+  --cor-borda: #514a5c;
+  --cor-borda-forte: #766a88;
+  --cor-avatar-creme: #493626;
+  --cor-avatar-areia: #443b32;
+  --cor-avatar-pessego: #4a322b;
+  --cor-avatar-lilas: #382a4e;
+  --cor-avatar-mel: #4a3c24;
+  --cor-sexo-femea: #ff8fc3;
+  --cor-sexo-macho: #84baff;
+  --cor-sucesso: #73d5a2;
+  --cor-sombra: 0 5px 18px rgb(0 0 0 / 22%);
+  --cor-sombra-hover: 0 10px 24px rgb(0 0 0 / 34%);
+  --cor-sombra-foco: 0 0 0 3px rgb(198 166 255 / 22%);
+  --cor-sombra-acao: 0 4px 10px rgb(0 0 0 / 24%);
+}
+
+/* ==================== Regras gerais ==================== */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--cor-fundo);
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: var(--fonte-texto);
+  font-size: var(--tamanho-fonte-3);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--fonte-titulo);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ==================== Cabeçalho, logo e navegação ==================== */
+.barra-superior {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-4);
+  min-height: 72px;
+  padding: 8px var(--margem-lateral);
+  border-bottom: 1px solid var(--cor-borda);
+  background: var(--cor-fundo-cartao);
+}
+
+.marca {
+  display: flex;
+  flex: 0 0 188px;
+  align-items: center;
+}
+
+.marca img {
+  display: block;
+  width: 176px;
+  max-height: 54px;
+  object-fit: contain;
+}
+
+.navegacao {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  align-self: stretch;
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 700;
+}
+
+.link-navegacao {
+  position: relative;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.link-navegacao:hover,
+.link-navegacao.ativo {
+  color: var(--cor-destaque);
+}
+
+.link-navegacao.ativo::after {
+  position: absolute;
+  right: 0;
+  bottom: -8px;
+  left: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--cor-destaque);
+  content: '';
+}
+
+.botao-tema {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 36px;
+  margin-left: auto;
+  padding: 0 11px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 99px;
+  background: var(--cor-fundo-cartao);
+  color: var(--cor-destaque);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.botao-tema:hover {
+  border-color: var(--cor-destaque);
+}
+
+.botao-tema > span:first-child {
+  font-size: var(--tamanho-fonte-3);
+}
+
+.perfil {
+  display: grid;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid var(--cor-borda-forte);
+  border-radius: 50%;
+  background: var(--cor-destaque-suave);
+  color: var(--cor-destaque);
+  font-size: var(--tamanho-fonte-1);
+  font-weight: 800;
+}
+
+/* ==================== Largura e títulos das páginas ==================== */
+.pagina {
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  padding: 36px var(--margem-lateral) 28px;
+}
+
+.pagina-inicio {
+  max-width: none;
+}
+
+.boas-vindas {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--espaco-3);
+  margin-bottom: 24px;
+}
+
+.sobretitulo {
+  margin: 0 0 7px;
+  color: var(--cor-destaque);
+  font-size: var(--tamanho-fonte-1);
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+h1 {
+  margin-bottom: 6px;
+  color: var(--cor-destaque-escura);
+  font-size: var(--tamanho-fonte-5);
+  line-height: 1.15;
+  letter-spacing: -0.7px;
+}
+
+h2 {
+  margin: 0 0 4px;
+  color: var(--cor-destaque-escura);
+  font-size: var(--tamanho-fonte-4);
+  line-height: 1.2;
+}
+
+.texto-suave {
+  margin-bottom: 0;
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-3);
+}
+
+.estado-unidade {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 5px;
+  padding: 10px 13px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 99px;
+  background: var(--cor-fundo-cartao);
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ponto-aberto {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cor-sucesso);
+}
+
+.separador-data {
+  width: 1px;
+  height: 14px;
+  background: var(--cor-borda);
+}
+
+.voltar {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: var(--cor-destaque);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 700;
+}
+
+.titulo-pagina {
+  margin-bottom: 23px;
+}
+
+/* ==================== Busca, pacientes e atalhos ==================== */
+.campo-busca {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  height: 50px;
+  padding: 0 17px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  background: var(--cor-fundo-cartao);
+  box-shadow: var(--cor-sombra);
+  color: var(--cor-destaque);
+}
+
+.campo-busca > span {
+  font-size: var(--tamanho-fonte-4);
+  line-height: 1;
+  transform: rotate(-20deg);
+}
+
+.campo-busca input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: var(--cor-transparente);
+  color: var(--cor-texto);
+  font-size: var(--tamanho-fonte-3);
+}
+
+.campo-busca input::placeholder,
+.campo-formulario input::placeholder,
+.campo-formulario textarea::placeholder {
+  color: var(--cor-texto-placeholder);
+}
+
+.campo-busca:focus-within {
+  border-color: var(--cor-destaque);
+  box-shadow: var(--cor-sombra-foco);
+}
+
+.cabecalho-secao {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--espaco-2);
+  margin: 31px 3px 14px;
+}
+
+.cabecalho-secao .texto-suave {
+  font-size: var(--tamanho-fonte-2);
+}
+
+.cabecalho-secao h2 {
+  font-size: var(--tamanho-fonte-3);
+}
+
+.link-texto {
+  color: var(--cor-destaque);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.link-texto span {
+  padding-left: 3px;
+  font-size: var(--tamanho-fonte-3);
+}
+
+.grade-pacientes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.cartao-paciente {
+  position: relative;
+  display: block;
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  background: var(--cor-fundo-cartao);
+  box-shadow: var(--cor-sombra);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.cartao-paciente:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--cor-sombra-hover);
+}
+
+.resumo-paciente {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  min-width: 0;
+  margin-bottom: 13px;
+}
+
+.avatar-paciente {
+  display: grid;
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border-radius: 14px;
+  font-size: var(--tamanho-fonte-5);
+}
+
+.avatar-creme {
+  background: var(--cor-avatar-creme);
+}
+
+.avatar-areia {
+  background: var(--cor-avatar-areia);
+}
+
+.avatar-pessego {
+  background: var(--cor-avatar-pessego);
+}
+
+.avatar-lilas {
+  background: var(--cor-avatar-lilas);
+  color: var(--cor-destaque);
+}
+
+.avatar-mel {
+  background: var(--cor-avatar-mel);
+}
+
+.dados-paciente {
+  min-width: 0;
+  padding-right: 78px;
+}
+
+.dados-paciente h3 {
+  margin: 0 0 3px;
+  color: var(--cor-destaque);
+  font-size: var(--tamanho-fonte-3);
+}
+
+.dados-paciente p {
+  overflow: hidden;
+  margin: 0 0 6px;
+  color: var(--cor-texto);
+  font-size: var(--tamanho-fonte-3);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.texto-abrir-ficha {
+  color: var(--cor-destaque);
+  font-size: var(--tamanho-fonte-2);
+  font-weight: 700;
+}
+
+.identificador-cartao-paciente {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  max-width: 90px;
+  overflow: hidden;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--cor-borda);
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 400;
+  cursor: copy;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.metadados-paciente {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 9px 10px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-pequeno);
+  background: var(--cor-fundo-campo);
+}
+
+.metadados-paciente div {
+  min-width: 0;
+}
+
+.metadados-paciente small,
+.metadados-paciente b {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.metadados-paciente small {
+  margin-bottom: 3px;
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-2);
+  font-weight: 500;
+  letter-spacing: 0.35px;
+}
+
+.metadados-paciente b {
+  color: var(--cor-texto);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 600;
+}
+
+.cabecalho-procedimentos {
+  align-items: center;
+  margin-top: 24px;
+  margin-bottom: 10px;
+}
+
+.cabecalho-procedimentos h2 {
+  margin-bottom: 4px;
+  font-size: var(--tamanho-fonte-3);
+}
+
+.cabecalho-procedimentos .texto-suave {
+  font-size: var(--tamanho-fonte-2);
+}
+
+.mensagem-vazia {
+  padding: 28px;
+  border: 1px dashed var(--cor-borda-forte);
+  border-radius: var(--raio-medio);
+  color: var(--cor-texto-secundario);
+  text-align: center;
+}
+
+.atalhos-paginas {
+  position: sticky;
+  z-index: 5;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 26px calc(-1 * clamp(22px, 4vw, 64px)) -28px;
+  padding: 8px clamp(22px, 4vw, 64px);
+  border-top: 1px solid var(--cor-borda);
+  background: var(--cor-fundo);
+  box-shadow: var(--cor-sombra);
+}
+
+.atalhos-paginas .botao {
+  width: 100%;
+}
+
+/* ==================== Botões ==================== */
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--cor-transparente);
+  border-radius: var(--raio-pequeno);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 800;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.botao:hover {
+  transform: translateY(-1px);
+}
+
+.botao-contorno {
+  border-color: var(--cor-borda-forte);
+  background: var(--cor-fundo-cartao);
+  color: var(--cor-destaque);
+}
+
+.botao-contorno:hover {
+  background: var(--cor-destaque-suave);
+}
+
+.botao-laranja {
+  background: var(--cor-acao);
+  color: var(--branco);
+  box-shadow: var(--cor-sombra-acao);
+}
+
+.botao-laranja:hover {
+  background: var(--cor-acao-hover);
+}
+
+/* ==================== Páginas de cadastro e procedimento ==================== */
+.pagina-formulario {
+  max-width: none;
+  padding-right: var(--margem-lateral);
+  padding-left: var(--margem-lateral);
+}
+
+.painel-formulario {
+  padding: 0;
+  border: 0;
+  background: var(--cor-transparente);
+  box-shadow: none;
+}
+
+.grade-dupla {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: var(--espaco-3);
+}
+
+.grupo-formulario {
+  min-width: 0;
+  margin: 0;
+  padding: 22px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  background: var(--cor-fundo-cartao);
+  box-shadow: var(--cor-sombra);
+}
+
+.grupo-formulario > legend {
+  float: left;
+  width: 100%;
+  margin-bottom: 17px;
+  padding: 0 0 10px;
+  border-bottom: 1px solid var(--cor-borda);
+  color: var(--cor-destaque);
+  font-family: var(--fonte-titulo);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 600;
+}
+
+.grupo-formulario > legend + * {
+  clear: both;
+}
+
+.grade-formulario {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 12px;
+}
+
+.campo-formulario {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  color: var(--cor-texto);
+  font-family: var(--fonte-texto);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 600;
+}
+
+.campo-formulario em,
+.grupo-opcoes > legend em {
+  color: var(--cor-acao);
+  font-style: normal;
+}
+
+.campo-formulario input,
+.campo-formulario select,
+.campo-formulario textarea {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-pequeno);
+  outline: 0;
+  background: var(--cor-fundo-campo);
+  color: var(--cor-texto);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 400;
+}
+
+.campo-formulario textarea {
+  resize: vertical;
+}
+
+.campo-formulario input:focus,
+.campo-formulario select:focus,
+.campo-formulario textarea:focus {
+  border-color: var(--cor-destaque);
+  box-shadow: var(--cor-sombra-foco);
+}
+
+.campo-formulario input:disabled,
+.campo-formulario select:disabled,
+.campo-formulario textarea:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+.campo-largo {
+  grid-column: span 2;
+}
+
+/* ==================== Opções de sexo, ícones e checklist ==================== */
+.grupo-opcoes {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--cor-transparente);
+  box-shadow: none;
+}
+
+.grupo-opcoes > legend {
+  float: none;
+  margin: 0 0 7px;
+  padding: 0;
+  border: 0;
+  color: var(--cor-texto);
+  font-family: var(--fonte-texto);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 600;
+}
+
+.opcoes-lado-a-lado {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+.opcao-radio,
+.lista-checklist label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 42px;
+  padding: 8px 11px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-pequeno);
+  background: var(--cor-fundo-campo);
+  color: var(--cor-texto);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.opcao-radio input,
+.lista-checklist input {
+  width: 16px;
+  min-height: 16px;
+  margin: 0;
+  accent-color: var(--cor-texto);
+}
+
+.lista-checklist input {
+  accent-color: var(--cor-acao);
+}
+
+.opcoes-icones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.opcoes-icones label {
+  position: relative;
+  cursor: pointer;
+}
+
+.opcoes-icones input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.opcoes-icones span {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid var(--cor-borda);
+  border-radius: 12px;
+  background: var(--cor-fundo-campo);
+  font-size: var(--tamanho-fonte-4);
+}
+
+.opcoes-icones input:checked + span {
+  border-color: var(--cor-destaque);
+  background: var(--cor-destaque-suave);
+  box-shadow: var(--cor-sombra-foco);
+}
+
+.opcoes-icones input:focus-visible + span {
+  outline: 2px solid var(--cor-destaque);
+  outline-offset: 2px;
+}
+
+.lista-checklist {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+.texto-ajuda,
+.contador-caracteres {
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-1);
+  font-weight: 400;
+  font-style: italic;
+}
+
+.contador-caracteres {
+  justify-self: end;
+  margin-top: -2px;
+}
+
+/* ==================== Identificação do pet e ações do cadastro ==================== */
+.paciente-selecionado {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 18px;
+  padding: 13px 15px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  background: var(--cor-fundo-cartao);
+  box-shadow: var(--cor-sombra);
+}
+
+.paciente-selecionado .avatar-paciente {
+  flex-basis: 48px;
+  width: 48px;
+  height: 48px;
+}
+
+.paciente-selecionado h2 {
+  margin: 0 0 3px;
+  color: var(--cor-destaque);
+  font-size: var(--tamanho-fonte-3);
+}
+
+.paciente-selecionado .link-texto {
+  margin-left: auto;
+}
+
+.acoes-cadastro-aberto {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-3);
+  margin-top: 18px;
+  padding: 17px 20px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  background: var(--cor-fundo-cartao);
+}
+
+.acoes-cadastro-aberto h2 {
+  margin-bottom: 4px;
+  font-size: var(--tamanho-fonte-3);
+}
+
+.botoes-cadastro-aberto {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.acoes-formulario {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--espaco-2);
+  margin-top: 8px;
+}
+
+.aviso-formulario {
+  min-height: 18px;
+  margin: 12px 0 0;
+  color: var(--cor-destaque);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 700;
+  text-align: right;
+}
+
+.grade-fotos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  gap: 12px;
+}
+
+.campo-formulario input[type="file"] {
+  display: block;
+  min-width: 0;
+  padding: 8px;
+  overflow: hidden;
+  color: var(--cor-texto);
+  background: var(--cor-fundo-campo);
+  font-size: var(--tamanho-fonte-3);
+  text-overflow: ellipsis;
+}
+
+.campo-formulario input[type="file"]::file-selector-button {
+  min-height: 32px;
+  margin-right: 8px;
+  padding: 0 10px;
+  border: 1px solid var(--cor-borda-forte);
+  border-radius: 8px;
+  background: var(--cor-destaque-suave);
+  color: var(--cor-destaque);
+  font: inherit;
+  cursor: pointer;
+}
+
+/* ==================== Procedimentos recentes no painel ==================== */
+.grade-procedimentos-recentes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.cartao-procedimento-recente {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  background: var(--cor-fundo-cartao);
+  box-shadow: var(--cor-sombra);
+}
+
+.cartao-procedimento-recente:hover {
+  border-color: var(--cor-destaque);
+  box-shadow: var(--cor-sombra-hover);
+}
+
+.topo-procedimento-recente {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.nome-paciente-recente {
+  margin: 0;
+  color: var(--cor-destaque);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 700;
+}
+
+.tipo-procedimento-recente {
+  margin: 0;
+  color: var(--cor-texto);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 600;
+}
+
+.data-procedimento-recente,
+.id-procedimento-recente {
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-2);
+}
+
+.id-procedimento-recente {
+  cursor: copy;
+}
+
+.id-procedimento-recente:hover {
+  color: var(--cor-destaque);
+}
+
+/* ==================== Elementos visuais da ficha do paciente ==================== */
+.grupo-titulo-bloco {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bloco-historico-titulo {
+  display: grid;
+  align-items: start;
+  gap: 4px;
+}
+
+.icone-secao {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  color: var(--cor-destaque);
+}
+
+.dado-ficha small {
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 400;
+}
+
+.dado-alerta {
+  border-color: var(--cor-acao);
+  background: var(--cor-fundo-cartao);
+}
+
+.titulo-alerta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--cor-acao);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 700;
+}
+
+.icone-alerta {
+  color: var(--cor-acao);
+  font-size: var(--tamanho-fonte-4);
+}
+
+.cartao-dados-tutor {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  background: var(--cor-fundo-cartao);
+}
+
+.linha-dado-tutor {
+  display: grid;
+  gap: 4px;
+  padding-right: 54px;
+}
+
+.linha-dado-tutor small {
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-3);
+}
+
+.linha-dado-tutor strong {
+  color: var(--cor-texto);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 600;
+}
+
+.identificadores-tutor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 4px;
+}
+
+.identificadores-tutor > div {
+  display: grid;
+  gap: 4px;
+  min-width: 140px;
+}
+
+.icone-tutor-ficha {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--cor-destaque-suave);
+  color: var(--cor-destaque);
+}
+
+.icone-tutor-ficha svg {
+  width: 22px;
+  height: 22px;
+}
+
+.icone-adicionar {
+  display: inline-grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border: 2px solid var(--branco);
+  border-radius: 50%;
+  font-size: var(--tamanho-fonte-3);
+  line-height: 1;
+}
+
+@media (max-width: 760px) {
+  .grade-procedimentos-recentes {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==================== Tela de boas-vindas ao clicar na logo ==================== */
+.pagina-bem-vindo {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(90deg, var(--cor-destaque) 0 50%, var(--cor-fundo-cartao) 50% 100%);
+}
+
+.tela-bem-vindo {
+  display: grid;
+  width: 100%;
+  min-height: 100vh;
+  place-items: center;
+}
+
+.botao-bem-vindo {
+  display: grid;
+  width: clamp(220px, 34vw, 430px);
+  min-height: clamp(100px, 18vh, 170px);
+  place-items: center;
+  border: 5px solid var(--branco);
+  border-radius: var(--raio-grande);
+  background: var(--cor-acao);
+  box-shadow: var(--cor-sombra-acao);
+  color: var(--branco);
+  font-family: var(--fonte-titulo);
+  font-size: var(--tamanho-fonte-5);
+  font-weight: 900;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.botao-bem-vindo:hover {
+  transform: scale(1.03);
+  background: var(--cor-acao-hover);
+}
+
+/* ==================== Ajustes para telas médias e pequenas ==================== */
+@media (max-width: 1000px) {
+  .barra-superior {
+    gap: 15px;
+  }
+
+  .marca {
+    flex-basis: 145px;
+  }
+
+  .marca img {
+    width: 138px;
+  }
+
+  .navegacao {
+    gap: 15px;
+  }
+
+  .texto-tema {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .barra-superior {
+    min-height: 64px;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 8px var(--margem-lateral);
+  }
+
+  .marca {
+    flex-basis: 112px;
+  }
+
+  .marca img {
+    width: 108px;
+    max-height: 42px;
+  }
+
+  .navegacao {
+    order: 3;
+    width: 100%;
+    height: 34px;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: var(--tamanho-fonte-1);
+  }
+
+  .link-navegacao.ativo::after {
+    bottom: -4px;
+  }
+
+  .botao-tema {
+    margin-left: auto;
+  }
+
+  .pagina {
+    padding: 26px 16px 20px;
+  }
+
+  .atalhos-paginas {
+    margin: 26px -16px -20px;
+    padding: 8px 16px;
+  }
+
+  .boas-vindas {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 13px;
+  }
+
+  .grade-pacientes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pagina-formulario {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .grade-dupla {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .estado-unidade {
+    gap: 6px;
+    padding: 8px 10px;
+    font-size: var(--tamanho-fonte-1);
+  }
+
+  .grade-pacientes {
+    grid-template-columns: 1fr;
+  }
+
+  .atalhos-paginas {
+    grid-template-columns: 1fr;
+  }
+
+  .cabecalho-secao {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .acoes-formulario,
+  .acoes-cadastro-aberto {
+    flex-direction: column;
+  }
+
+  .atalhos-paginas .botao,
+  .acoes-formulario .botao,
+  .botoes-cadastro-aberto .botao {
+    width: 100%;
+  }
+
+  .grupo-formulario {
+    padding: 16px;
+  }
+
+  .grade-formulario,
+  .lista-checklist,
+  .grade-fotos {
+    grid-template-columns: 1fr;
+  }
+
+  .campo-largo {
+    grid-column: auto;
+  }
+
+  .botoes-cadastro-aberto {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .acoes-cadastro-aberto {
+    align-items: stretch;
+  }
+}
+
+/* ==================== Preferência por menos animações ==================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==================== Formulário de cadastro no visual de recepção ==================== */
+body[data-pagina="cadastro"] .pagina-formulario {
+  max-width: none;
+  padding: 28px var(--margem-lateral) 40px;
+}
+
+body[data-pagina="cadastro"] .titulo-pagina {
+  margin-bottom: 24px;
+}
+
+body[data-pagina="cadastro"] .titulo-pagina h1 {
+  margin-bottom: 8px;
+  font-size: var(--tamanho-fonte-5);
+}
+
+body[data-pagina="cadastro"] .titulo-pagina .texto-suave {
+  font-size: var(--tamanho-fonte-3);
+}
+
+body[data-pagina="cadastro"] .grade-dupla {
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+body[data-pagina="cadastro"] .grupo-formulario {
+  padding: 24px;
+  border: 0;
+  border-radius: 28px;
+  box-shadow: var(--cor-sombra);
+}
+
+body[data-pagina="cadastro"] .grupo-formulario > legend {
+  margin-bottom: 4px;
+  padding: 0;
+  border: 0;
+  font-size: var(--tamanho-fonte-4);
+  font-weight: 600;
+}
+
+body[data-pagina="cadastro"] .descricao-grupo {
+  clear: both;
+  margin: 0 0 20px;
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-3);
+}
+
+body[data-pagina="cadastro"] .grade-formulario {
+  gap: 18px 14px;
+}
+
+body[data-pagina="cadastro"] .campo-formulario {
+  gap: 8px;
+}
+
+body[data-pagina="cadastro"] .campo-formulario input,
+body[data-pagina="cadastro"] .campo-formulario select,
+body[data-pagina="cadastro"] .campo-formulario textarea {
+  min-height: 52px;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--cor-fundo);
+  font-size: var(--tamanho-fonte-3);
+}
+
+body[data-pagina="cadastro"] .campo-formulario textarea {
+  min-height: 96px;
+}
+
+body[data-pagina="cadastro"] .campo-foto {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+body[data-pagina="cadastro"] .rotulo-foto {
+  color: var(--cor-texto);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 600;
+}
+
+body[data-pagina="cadastro"] .seletor-foto {
+  position: relative;
+  display: flex;
+  min-height: 200px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  border-radius: 22px;
+  background: var(--cor-fundo);
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-3);
+  text-align: center;
+  cursor: pointer;
+}
+
+body[data-pagina="cadastro"] .seletor-foto small {
+  display: inline-block;
+  margin-top: 8px;
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-3);
+}
+
+body[data-pagina="cadastro"] .icone-foto {
+  display: grid;
+  width: 68px;
+  height: 68px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--branco);
+  color: var(--cor-destaque);
+  font-size: var(--tamanho-fonte-5);
+  box-shadow: var(--cor-sombra);
+}
+
+body[data-pagina="cadastro"] .icone-foto svg {
+  width: 44px;
+  height: 44px;
+}
+
+body[data-pagina="cadastro"] .botao-selecionar-foto {
+  padding: 10px 18px;
+  border-radius: 14px;
+  background: var(--branco);
+  color: var(--cor-destaque);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 600;
+  box-shadow: var(--cor-sombra);
+}
+
+body[data-pagina="cadastro"] .seletor-foto input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+body[data-pagina="cadastro"] .acoes-formulario {
+  padding-top: 24px;
+}
+
+body[data-pagina="cadastro"] .opcoes-porte {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+body[data-pagina="cadastro"] .grupo-porte .opcao-radio,
+body[data-pagina="cadastro"] .grupo-sexo .opcao-radio {
+  justify-content: center;
+  min-height: 52px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--cor-fundo);
+  font-size: var(--tamanho-fonte-3);
+}
+
+body[data-pagina="cadastro"] .grupo-porte .opcao-radio:has(input:checked),
+body[data-pagina="cadastro"] .grupo-sexo .opcao-radio:has(input:checked) {
+  background: var(--cor-destaque-escura);
+  color: var(--branco);
+}
+
+body[data-pagina="cadastro"] .grupo-porte .opcao-radio input,
+body[data-pagina="cadastro"] .grupo-sexo .opcao-radio input {
+  width: 20px;
+  min-height: 20px;
+  accent-color: var(--cor-destaque-escura);
+}
+
+body[data-pagina="cadastro"] .grupo-porte .opcao-radio:has(input[value="Gigante"]) {
+  grid-column: 1 / -1;
+}
+
+/* Ajustes da página de procedimentos */
+body[data-pagina="procedimento"] .pagina-formulario {
+  max-width: none;
+  padding: 12px var(--margem-lateral) 24px;
+}
+
+body[data-pagina="procedimento"] .voltar {
+  margin-bottom: 8px;
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 500;
+}
+
+body[data-pagina="procedimento"] .titulo-pagina {
+  margin-bottom: 18px;
+}
+
+body[data-pagina="procedimento"] .titulo-pagina h1 {
+  margin-bottom: 2px;
+  font-size: var(--tamanho-fonte-6);
+}
+
+body[data-pagina="procedimento"] .titulo-pagina .texto-suave {
+  font-size: var(--tamanho-fonte-3);
+}
+
+body[data-pagina="procedimento"] .paciente-selecionado {
+  min-height: 88px;
+  margin-bottom: 18px;
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 24px;
+  box-shadow: none;
+}
+
+body[data-pagina="procedimento"] .paciente-selecionado .avatar-paciente {
+  flex-basis: 64px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+}
+
+body[data-pagina="procedimento"] .identificacao-paciente-procedimento {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-content: start;
+  gap: 0 12px;
+}
+
+body[data-pagina="procedimento"] .paciente-selecionado h2 {
+  margin: 0;
+  font-size: var(--tamanho-fonte-4);
+}
+
+body[data-pagina="procedimento"] .codigo-paciente-procedimento {
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--cor-destaque-suave);
+  color: var(--cor-destaque);
+  font: inherit;
+  font-size: var(--tamanho-fonte-4);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+body[data-pagina="procedimento"] .codigo-paciente-procedimento:hover {
+  background: var(--cor-destaque);
+  color: var(--branco);
+}
+
+body[data-pagina="procedimento"] .codigo-paciente-procedimento:focus-visible {
+  outline: 2px solid var(--cor-destaque);
+  outline-offset: 2px;
+}
+
+body[data-pagina="procedimento"] #detalhes-paciente-procedimento {
+  grid-column: 1 / -1;
+  margin: 2px 0 0;
+  font-size: var(--tamanho-fonte-3);
+}
+
+body[data-pagina="procedimento"] .paciente-selecionado .link-texto {
+  margin-left: auto;
+  font-size: var(--tamanho-fonte-3);
+}
+
+body[data-pagina="procedimento"] .grade-dupla {
+  display: block;
+}
+
+body[data-pagina="procedimento"] .grupo-formulario {
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--cor-transparente);
+  box-shadow: none;
+}
+
+body[data-pagina="procedimento"] .grupo-formulario > legend {
+  display: none;
+}
+
+body[data-pagina="procedimento"] .grade-formulario {
+  display: block;
+}
+
+body[data-pagina="procedimento"] .campo-formulario {
+  gap: 6px;
+  margin-bottom: 14px;
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 600;
+}
+
+body[data-pagina="procedimento"] .campo-formulario input,
+body[data-pagina="procedimento"] .campo-formulario select,
+body[data-pagina="procedimento"] .campo-formulario textarea {
+  min-height: 42px;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--cor-fundo-cartao);
+  box-shadow: var(--cor-sombra);
+  font-size: var(--tamanho-fonte-4);
+}
+
+body[data-pagina="procedimento"] .campo-formulario textarea {
+  min-height: 112px;
+  resize: vertical;
+}
+
+body[data-pagina="procedimento"] .grupo-opcoes > legend {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 600;
+}
+
+body[data-pagina="procedimento"] .rotulo-com-ajuda {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+body[data-pagina="procedimento"] .rotulo-com-ajuda small,
+body[data-pagina="procedimento"] .grupo-opcoes > legend > span:last-child {
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-2);
+  font-weight: 400;
+  font-style: italic;
+}
+
+body[data-pagina="procedimento"] .lista-checklist {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 12px;
+}
+
+body[data-pagina="procedimento"] .lista-checklist label {
+  min-height: 42px;
+  justify-content: space-between;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--cor-fundo-cartao);
+  box-shadow: var(--cor-sombra);
+  font-size: var(--tamanho-fonte-3);
+}
+
+body[data-pagina="procedimento"] .lista-checklist input {
+  display: grid;
+  flex: 0 0 18px;
+  order: 2;
+  appearance: none;
+  box-sizing: border-box;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+  aspect-ratio: 1;
+  place-items: center;
+  padding: 0;
+  border: 2px solid var(--cor-borda-forte);
+  border-radius: 50%;
+  background: var(--branco);
+  accent-color: var(--cor-acao);
+}
+
+body[data-pagina="procedimento"] .lista-checklist input::after {
+  color: var(--branco);
+  content: '✓';
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0;
+}
+
+body[data-pagina="procedimento"] .lista-checklist input:checked {
+  border-color: var(--cor-acao);
+  background: var(--cor-acao);
+}
+
+body[data-pagina="procedimento"] .lista-checklist input:checked::after {
+  opacity: 1;
+}
+
+body[data-pagina="procedimento"] .texto-ajuda,
+body[data-pagina="procedimento"] .contador-caracteres {
+  font-size: var(--tamanho-fonte-3);
+}
+
+body[data-pagina="procedimento"] .grade-fotos {
+  gap: 20px;
+}
+
+body[data-pagina="procedimento"] .grade-fotos .campo-formulario {
+  gap: 8px;
+  margin: 0;
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--cor-fundo-cartao);
+  box-shadow: var(--cor-sombra);
+}
+
+body[data-pagina="procedimento"] .grade-fotos input[type="file"] {
+  min-height: 42px;
+  padding: 8px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  background: var(--cor-fundo);
+  font-size: var(--tamanho-fonte-3);
+}
+
+body[data-pagina="procedimento"] .acoes-formulario {
+  display: block;
+  margin-top: 18px;
+}
+
+body[data-pagina="procedimento"] #cancelar-procedimento {
+  display: none;
+}
+
+body[data-pagina="procedimento"] .acoes-formulario button {
+  width: 100%;
+  min-height: 54px;
+  justify-content: center;
+  border-radius: 16px;
+  font-size: var(--tamanho-fonte-4);
+}
+
+/* ==================== Lista de todos os cadastros ==================== */
+body[data-pagina="todos-cadastros"] .pagina-todos-pacientes {
+  max-width: none;
+  padding: 28px var(--margem-lateral) 40px;
+}
+
+body[data-pagina="todos-cadastros"] .cabecalho-todos-pacientes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+body[data-pagina="todos-cadastros"] .titulo-pagina {
+  max-width: 1320px;
+  margin: 0;
+}
+
+body[data-pagina="todos-cadastros"] .titulo-pagina h1 {
+  margin-bottom: 6px;
+  font-size: var(--tamanho-fonte-6);
+}
+
+body[data-pagina="todos-cadastros"] .titulo-pagina .texto-suave {
+  font-size: var(--tamanho-fonte-4);
+  line-height: 1.3;
+}
+
+body[data-pagina="todos-cadastros"] .botao-novo-cadastro-lista {
+  flex: 0 0 auto;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 16px;
+  font-size: var(--tamanho-fonte-3);
+}
+
+body[data-pagina="todos-cadastros"] .painel-filtros-cadastros {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 16px;
+  border-radius: 22px;
+  background: var(--cor-fundo-cartao);
+  box-shadow: var(--cor-sombra);
+}
+
+body[data-pagina="todos-cadastros"] .campo-busca-lista {
+  height: 44px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--cor-fundo);
+  box-shadow: none;
+}
+
+body[data-pagina="todos-cadastros"] .campo-busca-lista input {
+  font-size: var(--tamanho-fonte-3);
+}
+
+body[data-pagina="todos-cadastros"] .grupos-filtros-cadastros {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 12px;
+}
+
+body[data-pagina="todos-cadastros"] .grupo-segmentado {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 38px;
+  padding: 4px;
+  border-radius: 12px;
+  background: var(--cor-fundo);
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 600;
+}
+
+body[data-pagina="todos-cadastros"] .grupo-segmentado > span {
+  padding: 0 8px;
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 700;
+}
+
+body[data-pagina="todos-cadastros"] .grupo-segmentado button {
+  min-height: 30px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--cor-transparente);
+  color: var(--cor-texto-secundario);
+  font: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+body[data-pagina="todos-cadastros"] .grupo-segmentado button[aria-pressed="true"] {
+  background: var(--cor-fundo-cartao);
+  color: var(--cor-acao-hover);
+  box-shadow: var(--cor-sombra);
+}
+
+body[data-pagina="todos-cadastros"] .ordenacao-cadastros {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 16px;
+  border-radius: 18px;
+  background: var(--cor-fundo);
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 600;
+}
+
+body[data-pagina="todos-cadastros"] .ordenacao-cadastros select {
+  min-height: 46px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--branco);
+  color: var(--cor-texto);
+  font: inherit;
+  cursor: pointer;
+}
+
+body[data-pagina="todos-cadastros"] .botao-limpar-filtros {
+  justify-self: start;
+  padding: 8px 0;
+  border: 0;
+  background: var(--cor-transparente);
+  color: var(--cor-destaque);
+  font-size: var(--tamanho-fonte-4);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+body[data-pagina="todos-cadastros"] .resumo-lista-cadastros {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 16px;
+}
+
+body[data-pagina="todos-cadastros"] .resumo-lista-cadastros > p {
+  flex: 1;
+  margin: 0;
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 600;
+}
+
+body[data-pagina="todos-cadastros"] .resumo-lista-cadastros > p::after {
+  display: inline-block;
+  width: min(30vw, 560px);
+  height: 1px;
+  margin-left: 24px;
+  background: var(--cor-borda);
+  content: '';
+  vertical-align: middle;
+}
+
+body[data-pagina="todos-cadastros"] .ordenacao-cadastros {
+  min-height: 38px;
+  margin-left: auto;
+}
+
+body[data-pagina="todos-cadastros"] .grade-pacientes-todos {
+  gap: 24px;
+}
+
+body[data-pagina="todos-cadastros"] .grade-pacientes-todos .cartao-paciente {
+  padding: 14px;
+  border-color: var(--cor-borda);
+  border-radius: 16px;
+  box-shadow: none;
+}
+
+body[data-pagina="todos-cadastros"] .grade-pacientes-todos .resumo-paciente {
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+body[data-pagina="todos-cadastros"] .grade-pacientes-todos .foto-paciente-cartao,
+body[data-pagina="todos-cadastros"] .grade-pacientes-todos .avatar-paciente {
+  flex-basis: 64px;
+  width: 64px;
+  height: 64px;
+}
+
+body[data-pagina="todos-cadastros"] .grade-pacientes-todos .dados-paciente h3 {
+  font-size: var(--tamanho-fonte-4);
+}
+
+body[data-pagina="todos-cadastros"] .grade-pacientes-todos .dados-paciente p {
+  margin-bottom: 4px;
+  font-size: var(--tamanho-fonte-3);
+}
+
+body[data-pagina="todos-cadastros"] .grade-pacientes-todos .texto-abrir-ficha {
+  font-size: var(--tamanho-fonte-2);
+}
+
+body[data-pagina="todos-cadastros"] .grade-pacientes-todos .metadados-paciente {
+  gap: 10px;
+  padding: 8px;
+  border-radius: 12px;
+}
+
+body[data-pagina="todos-cadastros"] .grade-pacientes-todos .metadados-paciente small {
+  font-size: var(--tamanho-fonte-2);
+}
+
+body[data-pagina="todos-cadastros"] .grade-pacientes-todos .metadados-paciente b {
+  font-size: var(--tamanho-fonte-3);
+}
+
+body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
+  top: 14px;
+  right: 14px;
+  max-width: 90px;
+  font-size: var(--tamanho-fonte-3);
+}
+
+.identificador-cartao-paciente:hover {
+  color: var(--cor-destaque);
+}
+
+.foto-paciente-cartao {
+  position: relative;
+  display: block;
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+}
+
+.foto-paciente-cartao .avatar-paciente {
+  width: 100%;
+  height: 100%;
+}
+
+.icone-sexo-card {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 3px solid var(--cor-fundo-cartao);
+  border-radius: 50%;
+  background: var(--cor-destaque);
+  color: var(--branco);
+  font-size: var(--tamanho-fonte-4);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.icone-sexo-card.sexo-femea {
+  background: var(--cor-sexo-femea);
+}
+
+.icone-sexo-card.sexo-macho {
+  background: var(--cor-sexo-macho);
+}
+
+@media (max-width: 760px) {
+  :root {
+    --margem-lateral: 16px;
+  }
+  body[data-pagina="procedimento"] .pagina-formulario,
+  body[data-pagina="todos-cadastros"] .pagina-todos-pacientes {
+    padding: 24px var(--margem-lateral) 36px;
+  }
+
+  body[data-pagina="procedimento"] .titulo-pagina h1,
+  body[data-pagina="todos-cadastros"] .titulo-pagina h1 {
+    font-size: var(--tamanho-fonte-4);
+  }
+
+  body[data-pagina="procedimento"] .titulo-pagina .texto-suave,
+  body[data-pagina="todos-cadastros"] .titulo-pagina .texto-suave {
+    font-size: var(--tamanho-fonte-3);
+  }
+
+  body[data-pagina="procedimento"] .paciente-selecionado {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 16px;
+  }
+
+  body[data-pagina="procedimento"] .paciente-selecionado .avatar-paciente {
+    flex-basis: 64px;
+    width: 64px;
+    height: 64px;
+  }
+
+  body[data-pagina="procedimento"] .lista-checklist,
+  body[data-pagina="procedimento"] .grade-fotos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body[data-pagina="procedimento"] .acoes-formulario button {
+    min-height: 64px;
+  }
+
+  body[data-pagina="todos-cadastros"] .cabecalho-todos-pacientes,
+  body[data-pagina="todos-cadastros"] .resumo-lista-cadastros {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  body[data-pagina="todos-cadastros"] .botao-novo-cadastro-lista {
+    align-self: flex-start;
+  }
+
+  body[data-pagina="todos-cadastros"] .grupos-filtros-cadastros {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  body[data-pagina="todos-cadastros"] .grupo-segmentado {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+
+  body[data-pagina="todos-cadastros"] .resumo-lista-cadastros > p::after {
+    display: none;
+  }
+
+  body[data-pagina="todos-cadastros"] .grade-pacientes-todos {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 520px) {
+  body[data-pagina="procedimento"] .lista-checklist,
+  body[data-pagina="procedimento"] .grade-fotos {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  body[data-pagina="cadastro"] .pagina-formulario {
+    padding: 28px var(--margem-lateral);
+  }
+
+  body[data-pagina="cadastro"] .titulo-pagina h1 {
+    font-size: var(--tamanho-fonte-5);
+  }
+
+  body[data-pagina="cadastro"] .grupo-formulario {
+    padding: 20px;
+  }
+
+  body[data-pagina="cadastro"] .grupo-formulario > legend {
+    font-size: var(--tamanho-fonte-4);
+  }
+
+  body[data-pagina="cadastro"] .seletor-foto {
+    min-height: 210px;
+  }
+}
+
+/* ==================== Ficha do paciente e histórico ==================== */
+.pagina-ficha {
+  max-width: none;
+}
+
+.pagina-ficha > .aviso-formulario {
+  text-align: left;
+}
+
+.pagina-ficha #aviso-ficha:empty {
+  display: none;
+}
+
+.resumo-ficha {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 14px 18px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  background: var(--cor-fundo-cartao);
+  box-shadow: var(--cor-sombra);
+}
+
+.resumo-ficha .avatar-paciente {
+  flex-basis: 56px;
+  width: 56px;
+  height: 56px;
+}
+
+.texto-resumo-ficha {
+  min-width: 220px;
+}
+
+.texto-resumo-ficha h1 {
+  margin-bottom: 4px;
+  font-size: var(--tamanho-fonte-4);
+}
+
+.texto-id-ficha {
+  margin: 5px 0 0;
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 400;
+}
+
+.texto-id-ficha strong {
+  color: var(--cor-destaque);
+  font-weight: 600;
+}
+
+.acoes-resumo-ficha {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.botao-procedimento-grande {
+  display: flex;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.bloco-ficha,
+.bloco-historico {
+  margin-bottom: 16px;
+}
+
+.titulo-bloco-ficha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.titulo-bloco-ficha h2 {
+  margin: 0;
+  font-size: var(--tamanho-fonte-3);
+}
+
+.selo-ficha {
+  padding: 5px 9px;
+  border-radius: 99px;
+  background: var(--cor-destaque-suave);
+  color: var(--cor-destaque);
+  font-size: var(--tamanho-fonte-2);
+  font-weight: 700;
+}
+
+.selo-laranja {
+  background: var(--cor-acao);
+  color: var(--branco);
+}
+
+.grade-dados-ficha {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.dado-ficha {
+  display: grid;
+  gap: 5px;
+  min-height: 55px;
+  padding: 9px 12px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-pequeno);
+  background: var(--cor-fundo-campo);
+}
+
+.dado-ficha small {
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-2);
+  font-weight: 400;
+}
+
+.dado-ficha strong {
+  color: var(--cor-texto);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.dado-ficha.dado-largo {
+  grid-column: 1 / -1;
+}
+
+.titulo-historico {
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.titulo-historico .texto-suave {
+  margin-top: 5px;
+}
+
+.acoes-titulo-historico {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contador-historico {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--cor-fundo);
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-2);
+}
+
+.lista-historico,
+.lista-procedimentos {
+  display: grid;
+  gap: 8px;
+}
+
+.cartao-historico,
+.cartao-procedimento {
+  display: block;
+  padding: 14px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-pequeno);
+  background: var(--cor-fundo-cartao);
+  color: var(--cor-texto);
+}
+
+.cartao-historico {
+  overflow: hidden;
+  padding: 0;
+}
+
+.cartao-procedimento:hover {
+  border-color: var(--cor-destaque);
+}
+
+.cabecalho-historico {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0;
+  padding: 16px;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.resumo-historico {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.data-historico,
+.identificador-procedimento {
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-2);
+}
+
+.identificador-procedimento {
+  color: var(--cor-destaque);
+  font-weight: 700;
+  cursor: copy;
+}
+
+.identificador-procedimento:hover {
+  color: var(--cor-acao);
+}
+
+.tipos-historico,
+.cartao-procedimento h2 {
+  margin: 0 0 10px;
+  color: var(--cor-texto);
+  font-size: var(--tamanho-fonte-3);
+}
+
+.cartao-procedimento .texto-historico {
+  margin: 0 0 4px;
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-3);
+  line-height: 1.4;
+}
+
+.tipos-historico {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  font-weight: 700;
+}
+
+.linha-tipo-historico {
+  color: var(--cor-texto);
+  font-size: var(--tamanho-fonte-3);
+  line-height: 1.25;
+}
+
+.botao-recolher-historico {
+  display: grid;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--cor-fundo);
+  color: var(--cor-texto-secundario);
+  cursor: pointer;
+}
+
+.botao-recolher-historico svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: var(--cor-texto-secundario);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.detalhes-historico {
+  display: grid;
+  gap: 12px;
+  padding: 12px 16px 16px;
+}
+
+.campo-historico {
+  display: grid;
+  gap: 4px;
+}
+
+.rotulo-historico {
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 400;
+}
+
+.rotulo-profissional,
+.rotulo-descricao,
+.rotulo-observacoes {
+  color: var(--cor-destaque);
+}
+
+.valor-historico {
+  color: var(--cor-texto);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.dado-ficha .titulo-alerta {
+  color: var(--cor-acao);
+  font-weight: 600;
+}
+
+@media (max-width: 760px) {
+  .titulo-historico {
+    align-items: flex-start;
+  }
+
+  .acoes-titulo-historico {
+    align-self: flex-start;
+  }
+}
+
+/* ==================== Filtros das páginas de listas ==================== */
+.filtros-lista {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  background: var(--cor-fundo-cartao);
+}
+
+.campo-busca-lista {
+  flex: 1 1 auto;
+}
+
+.campo-ordem {
+  flex: 0 0 240px;
+}
+
+.botao-filtro {
+  flex: 0 0 auto;
+}
+
+.filtros-um-campo .campo-busca-lista {
+  width: 100%;
+}
+
+.aviso-filtro {
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--cor-borda-forte);
+  border-radius: var(--raio-pequeno);
+  background: var(--cor-destaque-suave);
+  color: var(--cor-destaque);
+  font-size: var(--tamanho-fonte-3);
+  font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  .filtros-lista {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .campo-ordem {
+    flex-basis: auto;
+  }
+
+  .botao-filtro {
+    width: 100%;
+  }
+
+  .resumo-ficha {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .acoes-resumo-ficha {
+    margin-left: 0;
+  }
+
+  .titulo-historico {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 520px) {
+  .grade-dados-ficha {
+    grid-template-columns: 1fr;
+  }
+
+  .dado-ficha.dado-largo {
+    grid-column: auto;
+  }
+}
+
+body[data-pagina="cadastro"] .grupo-porte .opcao-radio input[type="radio"],
+body[data-pagina="cadastro"] .grupo-sexo .opcao-radio input[type="radio"] {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  appearance: none;
+  border: 2px solid var(--cor-borda-forte);
+  border-radius: 50%;
+  background: var(--branco);
+}
+
+body[data-pagina="cadastro"] .grupo-porte .opcao-radio input[type="radio"]:checked,
+body[data-pagina="cadastro"] .grupo-sexo .opcao-radio input[type="radio"]:checked {
+  border-color: var(--branco);
+  background: radial-gradient(circle, var(--cor-destaque-escura) 0 4px, var(--branco) 5px);
+}

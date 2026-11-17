@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Miau Uau Pet Shop | Bem vindo</title>
+  <script src="{{url_for('static', filename='js/tema.js')}}" ></script>
+  <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+  <script src="{{url_for('static', filename='js/aplicacao.js')}}" defer></script>
+</head>
+<body class="pagina-bem-vindo">
+  <!-- Tela inicial solicitada: duas metades e um único botão -->
+  <main class="tela-bem-vindo">
+    <a class="botao-bem-vindo" href="{{url_for ('pag_inicial')}}">Bem vindo</a>
+  </main>
+</body>
+</html>

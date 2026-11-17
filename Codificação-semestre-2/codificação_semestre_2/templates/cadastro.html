@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Miau Uau Pet Shop | Cadastro do paciente</title>
+  <script src="{{url_for('static', filename='js/tema.js')}}" ></script>
+  <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+  <script src="{{url_for('static', filename='js/aplicacao.js')}}" defer></script>
+</head>
+<body data-pagina="cadastro">
+  <!-- Cabeçalho da área de gestão -->
+  <header class="barra-superior">
+    <a class="marca" href="{{url_for ('welcome')}}" aria-label="Miau Uau Pet Shop, tela de boas-vindas">
+      <img src="{{url_for('static', filename='Miau-uau.jpeg')}}" alt="Logo Miau Uau Pet Shop">
+    </a>
+    <nav class="navegacao" aria-label="Navegação principal">
+      <a class="link-navegacao" href="{{url_for ('pag_inicial')}}">Início</a>
+      <a class="link-navegacao" href="{{url_for ('pets_cadastrados')}}">Cadastros</a>
+      <a class="link-navegacao" href="{{url_for ('procedimentos_totais')}}">Procedimentos</a>
+      <a class="link-navegacao ativo" href="{{url_for ('novos_pets')}}">Novo cadastro</a>
+      <a class="link-navegacao" href="{{url_for ('novos_procedimentos')}}">Novo procedimento</a>
+    </nav>
+    <button class="botao-tema" type="button" data-alternar-tema aria-label="Ativar modo noturno">
+      <span aria-hidden="true">☾</span><span class="texto-tema">Modo noturno</span>
+    </button>
+    <button class="perfil" type="button" aria-label="Perfil do proprietário">DP</button>
+  </header>
+
+  <!-- Formulário ocupa a largura disponível e divide os dados em duas metades -->
+  <main class="pagina pagina-formulario">
+    <a class="voltar" href="{{url_for ('pag_inicial')}}">← Voltar ao painel</a>
+    <section class="titulo-pagina">
+      <h1 id="titulo-cadastro">Novo cadastro</h1>
+      <p class="texto-suave">Preencha com carinho as informações do cãozinho para recebê-lo em nossa unidade.</p>
+    </section>
+
+    <form id="formulario-cadastro" class="painel-formulario">
+      <div class="grade-dupla">
+        <!-- Metade esquerda: identificação do cachorro -->
+        <fieldset class="grupo-formulario">
+          <legend>Dados do cachorro</legend>
+          <p class="descricao-grupo">Identificação clínica e física</p>
+          <div class="grade-formulario">
+            <div class="campo-foto campo-largo">
+              <span class="rotulo-foto">Fotografia do cãozinho</span>
+              <label class="seletor-foto" for="foto-cachorro">
+                <span class="icone-foto" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3"></circle><path d="M20 3v4m-2-2h4"></path>
+                  </svg>
+                </span>
+                <span id="texto-foto">Adicione uma foto do cachorro<br><small>(opcional)</small></span>
+                <span class="botao-selecionar-foto">▣&nbsp; Selecionar foto</span>
+                <input id="foto-cachorro" type="file" accept="image/*" aria-label="Selecionar foto do cachorro">
+              </label>
+            </div>
+            <label class="campo-formulario campo-largo">
+              <span>Nome do cachorro <em>*</em></span>
+              <input name="nome" type="text" maxlength="80" placeholder="Ex.: Pipoca, Thor..." required>
+            </label>
+            <label class="campo-formulario">
+              Raça
+              <input name="raca" type="text" maxlength="80" list="lista-racas"
+                placeholder="Digite para buscar uma raça">
+              <datalist id="lista-racas"></datalist>
+            </label>
+            <label class="campo-formulario">
+              Cor predominante
+              <input name="cor" type="text" maxlength="50" placeholder="Ex.: branco, caramelo">
+            </label>
+            <label class="campo-formulario">
+              Peso aproximado
+              <input name="peso" type="text" maxlength="20" placeholder="Ex.: 4,8 kg">
+            </label>
+            <label class="campo-formulario">
+              Idade estimada
+              <input name="idade" type="text" maxlength="40" placeholder="Ex.: 2 anos e 6 meses">
+            </label>
+            <fieldset class="campo-formulario campo-largo grupo-opcoes grupo-porte">
+              <legend>Porte do cão</legend>
+              <div class="opcoes-porte">
+                <label class="opcao-radio"><input name="porte" type="radio" value="Mini" required>Mini</label>
+                <label class="opcao-radio"><input name="porte" type="radio" value="Pequeno">Pequeno</label>
+                <label class="opcao-radio"><input name="porte" type="radio" value="Médio">Médio</label>
+                <label class="opcao-radio"><input name="porte" type="radio" value="Grande">Grande</label>
+                <label class="opcao-radio"><input name="porte" type="radio" value="Gigante">Gigante</label>
+              </div>
+            </fieldset>
+            <!-- Seleção por rádio do sexo do paciente -->
+            <fieldset class="campo-formulario campo-largo grupo-opcoes grupo-sexo">
+              <legend>Sexo</legend>
+              <div class="opcoes-lado-a-lado">
+                <label class="opcao-radio"><input name="sexo" type="radio" value="Fêmea" required> Fêmea</label>
+                <label class="opcao-radio"><input name="sexo" type="radio" value="Macho"> Macho</label>
+              </div>
+            </fieldset>
+
+            <label class="campo-formulario campo-largo">
+              Castrado(a)?
+              <select name="castrado">
+                <option value="Não informado">Selecione</option>
+                <option value="Sim">Sim</option>
+                <option value="Não">Não</option>
+              </select>
+            </label>
+
+            <fieldset class="campo-formulario campo-largo grupo-opcoes">
+              <legend>Ícone do cachorro</legend>
+              <div class="opcoes-icones" aria-label="Escolha um ícone para o paciente">
+                <label><input name="icone" type="radio" value="🐶" checked><span>🐶</span></label>
+                <label><input name="icone" type="radio" value="🐕"><span>🐕</span></label>
+                <label><input name="icone" type="radio" value="🐩"><span>🐩</span></label>
+                <label><input name="icone" type="radio" value="🐾"><span>🐾</span></label>
+              </div>
+            </fieldset>
+
+            <label class="campo-formulario campo-largo">
+              Doenças preexistentes ou alergias
+              <textarea name="alergias" rows="3" maxlength="500"
+                placeholder="Alergias, medicações contínuas ou condições prévias (opcional)"></textarea>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Metade direita: dados do tutor responsável pelo pet -->
+        <fieldset class="grupo-formulario">
+          <legend>Dados do tutor responsável</legend>
+          <p class="descricao-grupo">Informe os dados da pessoa responsável</p>
+          <div class="grade-formulario">
+            <label class="campo-formulario campo-largo">
+              <span>Nome completo <em>*</em></span>
+              <input name="tutor" type="text" maxlength="120" placeholder="Nome e sobrenome do responsável" required>
+            </label>
+            <label class="campo-formulario">
+              <span>CPF <em>*</em></span>
+              <input name="cpf" type="text" inputmode="numeric" maxlength="14"
+                placeholder="000.000.000-00" required>
+            </label>
+            <label class="campo-formulario">
+              <span>NIS <em>*</em></span>
+              <input name="nis" type="text" inputmode="numeric" maxlength="14"
+                placeholder="000.00000.00-0" required>
+            </label>
+            <label class="campo-formulario campo-largo">
+              <span>Telefone com DDD <em>*</em></span>
+              <input name="telefone" type="tel" maxlength="20" placeholder="(00) 00000-0000" required>
+            </label>
+            <label class="campo-formulario campo-largo">
+              Endereço residencial
+              <input name="endereco" type="text" maxlength="180" placeholder="Rua, número, bairro e complemento">
+            </label>
+          </div>
+        </fieldset>
+      </div>
+
+      <!-- Histórico e atalhos do cadastro aberto -->
+      <section id="acoes-cadastro-aberto" class="acoes-cadastro-aberto" hidden>
+        <div>
+          <h2>Cadastro do paciente</h2>
+          <p class="texto-suave">Confira os dados ou habilite a edição.</p>
+        </div>
+        <div class="botoes-cadastro-aberto">
+          <button id="botao-editar-cadastro" class="botao botao-contorno" type="button">Editar dados</button>
+          <a id="link-novo-procedimento" class="botao botao-laranja" href="{{url_for ('novos_procedimentos')}}">Criar procedimento para este pet</a>
+        </div>
+      </section>
+
+      <div class="acoes-formulario">
+        <a class="botao botao-contorno" href="{{url_for ('pag_inicial')}}">Cancelar e voltar</a>
+        <button id="botao-salvar-cadastro" class="botao botao-laranja" type="submit">Salvar cadastro</button>
+      </div>
+      <p id="aviso-cadastro" class="aviso-formulario" role="status" aria-live="polite"></p>
+    </form>
+  </main>
+</body>
+</html>

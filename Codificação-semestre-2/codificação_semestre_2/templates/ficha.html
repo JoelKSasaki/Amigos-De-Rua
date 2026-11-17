@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Miau Uau Pet Shop | Ficha do paciente</title>
+  <script src="{{url_for('static', filename='js/tema.js')}}" ></script>
+  <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+  <script src="{{url_for('static', filename='js/aplicacao.js')}}" defer></script>
+</head>
+<body data-pagina="ficha">
+  <!-- Cabeçalho da área de gestão -->
+  <header class="barra-superior">
+    <a class="marca" href="{{url_for ('welcome')}}" aria-label="Miau Uau Pet Shop, tela de boas-vindas">
+      <img src="{{url_for('static', filename='Miau-uau.jpeg')}}" alt="Logo Miau Uau Pet Shop">
+    </a>
+    <nav class="navegacao" aria-label="Navegação principal">
+      <a class="link-navegacao" href="{{url_for ('pag_inicial')}}">Início</a>
+      <a class="link-navegacao ativo" href="{{url_for ('pets_cadastrados')}}">Cadastros</a>
+      <a class="link-navegacao" href="{{url_for ('procedimentos_totais')}}">Procedimentos</a>
+      <a class="link-navegacao" href="{{url_for ('novos_pets')}}">Novo cadastro</a>
+      <a class="link-navegacao" href="{{url_for ('novos_procedimentos')}}">Novo procedimento</a>
+    </nav>
+    <button class="botao-tema" type="button" data-alternar-tema aria-label="Ativar modo noturno">
+      <span aria-hidden="true">☾</span><span class="texto-tema">Modo noturno</span>
+    </button>
+    <button class="perfil" type="button" aria-label="Perfil do proprietário">DP</button>
+  </header>
+
+  <!-- Ficha completa no formato de consulta do paciente -->
+  <main class="pagina pagina-ficha">
+    <a class="voltar" href="{{url_for ('pag_inicial')}}">← Voltar aos pacientes</a>
+    <p id="aviso-ficha" class="aviso-formulario" role="status" aria-live="polite"></p>
+
+    <div id="conteudo-ficha">
+      <!-- Resumo e ações principais do paciente -->
+      <section class="resumo-ficha">
+        <span id="icone-ficha" class="avatar-paciente avatar-creme" aria-hidden="true">🐶</span>
+        <div class="texto-resumo-ficha">
+          <h1 id="nome-ficha">Paciente</h1>
+          <p id="subtitulo-ficha" class="texto-suave"></p>
+          <p class="texto-id-ficha">ID: <strong id="id-ficha"></strong></p>
+        </div>
+        <a id="botao-editar-ficha" class="botao botao-contorno" href="{{url_for ('novos_pets')}}">Editar dados</a>
+      </section>
+
+      <a id="botao-novo-procedimento-ficha" class="botao botao-laranja botao-procedimento-grande" href="{{url_for ('novos_procedimentos')}}">
+        <span class="icone-adicionar" aria-hidden="true">+</span>&nbsp; Novo atendimento
+      </a>
+
+      <!-- Informações do cachorro e do tutor em duas colunas -->
+      <section class="bloco-ficha">
+        <div class="titulo-bloco-ficha">
+          <div class="grupo-titulo-bloco">
+          <svg class="icone-secao" viewBox="0 0 24 24" fill="none" stroke="var(--cor-destaque)" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle><path d="M12 11v5"></path><path d="M12 8h.01"></path>
+          </svg>
+          <h2>Informações do cachorro</h2>
+          </div>
+        </div>
+        <div class="grade-dados-ficha">
+          <div class="dado-ficha"><small>Raça</small><strong data-dado="raca"></strong></div>
+          <div class="dado-ficha"><small>Porte</small><strong data-dado="porte"></strong></div>
+          <div class="dado-ficha"><small>Peso atual</small><strong data-dado="peso"></strong></div>
+          <div class="dado-ficha"><small>Idade estimada</small><strong data-dado="idade"></strong></div>
+          <div class="dado-ficha"><small>Sexo</small><strong data-dado="sexo"></strong></div>
+          <div class="dado-ficha"><small>Cor da pelagem</small><strong data-dado="cor"></strong></div>
+          <div class="dado-ficha dado-largo"><small>Condição reprodutiva</small><strong data-dado="castrado"></strong></div>
+          <div class="dado-ficha dado-largo dado-alerta">
+            <strong class="titulo-alerta"><span class="icone-alerta" aria-hidden="true">⚠</span>Doenças pré-existentes / Alergias</strong>
+            <span data-dado="alergias"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="bloco-ficha">
+        <div class="titulo-bloco-ficha">
+          <div class="grupo-titulo-bloco">
+          <svg class="icone-secao" viewBox="0 0 24 24" fill="none" stroke="var(--cor-destaque)" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="8" r="3.5"></circle><path d="M5 20a7 7 0 0 1 14 0"></path>
+          </svg>
+          <h2>Informações do tutor</h2>
+          </div>
+        </div>
+        <div class="cartao-dados-tutor">
+          <div class="linha-dado-tutor">
+            <small>Nome completo</small>
+            <strong data-dado="tutor"></strong>
+            <div class="identificadores-tutor">
+              <div><small>CPF</small><strong data-dado="cpf"></strong></div>
+              <div><small>NIS</small><strong data-dado="nis"></strong></div>
+            </div>
+          </div>
+          <div class="linha-dado-tutor">
+            <small>Telefone celular</small>
+            <strong data-dado="telefone"></strong>
+          </div>
+          <div class="linha-dado-tutor">
+            <small>Endereço residencial</small>
+            <strong data-dado="endereco"></strong>
+          </div>
+          <span class="icone-tutor-ficha" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--cor-destaque)" stroke-width="2">
+              <circle cx="12" cy="8" r="3.5"></circle><path d="M5 20a7 7 0 0 1 14 0"></path>
+            </svg>
+          </span>
+        </div>
+      </section>
+
+      <!-- Os cinco procedimentos mais recentes e o acesso ao histórico completo -->
+      <section class="bloco-historico">
+        <div class="titulo-bloco-ficha titulo-historico">
+          <div class="bloco-historico-titulo">
+            <div class="grupo-titulo-bloco">
+            <svg class="icone-secao" viewBox="0 0 24 24" fill="none" stroke="var(--cor-destaque)" stroke-width="2" aria-hidden="true">
+              <path d="M3 12a9 9 0 1 0 2.6-6.4L3 8"></path><path d="M3 3v5h5"></path><path d="M12 7v5l3 2"></path>
+            </svg>
+            <h2>Histórico de atendimentos</h2>
+            </div>
+            <p class="texto-suave">Ordem cronológica decrescente</p>
+          </div>
+          <div class="acoes-titulo-historico">
+            <span id="contagem-procedimentos" class="contador-historico">0</span>
+            <a id="botao-ver-procedimentos" class="botao botao-contorno" href="{{url_for ('procedimentos_totais')}}">
+              Ver todos os procedimentos
+            </a>
+          </div>
+        </div>
+        <p id="mensagem-sem-historico" class="mensagem-vazia" hidden>Este paciente ainda não tem procedimentos registrados.</p>
+        <div id="lista-historico" class="lista-historico"></div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Miau Uau Pet Shop | Novo procedimento</title>
+  <script src="{{url_for('static', filename='js/tema.js')}}" ></script>
+  <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+  <script src="{{url_for('static', filename='js/aplicacao.js')}}" defer></script>
+</head>
+<body data-pagina="procedimento">
+  <!-- Cabeçalho da área de gestão -->
+  <header class="barra-superior">
+    <a class="marca" href="{{url_for ('welcome')}}" aria-label="Miau Uau Pet Shop, tela de boas-vindas">
+      <img src="{{url_for('static', filename='Miau-uau.jpeg')}}" alt="Logo Miau Uau Pet Shop">
+    </a>
+    <nav class="navegacao" aria-label="Navegação principal">
+      <a class="link-navegacao" href="{{url_for ('pag_inicial')}}">Início</a>
+      <a class="link-navegacao" href="{{url_for ('pets_cadastrados')}}">Cadastros</a>
+      <a class="link-navegacao" href="{{url_for ('procedimentos_totais')}}">Procedimentos</a>
+      <a class="link-navegacao" href="{{url_for ('novos_pets')}}">Novo cadastro</a>
+      <a class="link-navegacao ativo" href="{{url_for ('novos_procedimentos')}}">Novo procedimento</a>
+    </nav>
+    <button class="botao-tema" type="button" data-alternar-tema aria-label="Ativar modo noturno">
+      <span aria-hidden="true">☾</span><span class="texto-tema">Modo noturno</span>
+    </button>
+    <button class="perfil" type="button" aria-label="Perfil do proprietário">DP</button>
+  </header>
+
+  <!-- Formulário de trabalho em duas colunas iguais -->
+  <main class="pagina pagina-formulario">
+    <a id="voltar-do-procedimento" class="voltar" href="{{url_for ('pag_inicial')}}">← Voltar à ficha</a>
+    <section class="titulo-pagina">
+      <h1>Novo Atendimento</h1>
+      <p class="texto-suave">Registre os detalhes e fotos do procedimento realizado no paciente.</p>
+    </section>
+
+    <!-- Identificação preenchida automaticamente quando aberta pela ficha de um pet -->
+    <section id="paciente-selecionado" class="paciente-selecionado" hidden>
+      <span id="icone-paciente-procedimento" class="avatar-paciente" aria-hidden="true">🐶</span>
+      <div class="identificacao-paciente-procedimento">
+        <h2 id="nome-paciente-procedimento">Paciente</h2>
+        <button id="codigo-paciente-procedimento" class="codigo-paciente-procedimento" type="button" aria-label="Copiar ID do cachorro"></button>
+        <p id="detalhes-paciente-procedimento" class="texto-suave"></p>
+      </div>
+      <a id="link-ficha-paciente" class="link-texto" href="{{url_for ('novos_pets')}}">Abrir cadastro</a>
+    </section>
+
+    <form id="formulario-procedimento" class="painel-formulario">
+      <div class="grade-dupla">
+        <!-- Metade esquerda: data, profissional e checklist de serviços -->
+        <fieldset class="grupo-formulario">
+          <legend>Dados do atendimento</legend>
+          <div class="grade-formulario">
+            <label id="campo-selecionar-paciente" class="campo-formulario campo-largo">
+              <span>Paciente <em>*</em></span>
+              <select id="seletor-paciente" name="idPaciente" required>
+                <option value="">Selecione um paciente</option>
+              </select>
+            </label>
+            <label class="campo-formulario campo-largo">
+              <span>Data do atendimento <em>*</em></span>
+              <input name="data" type="datetime-local" required>
+            </label>
+            <label class="campo-formulario campo-largo">
+              <span>Profissional responsável <em>*</em></span>
+              <input name="profissional" type="text" maxlength="120" placeholder="Nome de quem realizou o atendimento" required>
+            </label>
+
+            <!-- Lista de serviços selecionáveis em conjunto -->
+            <fieldset class="campo-formulario campo-largo grupo-opcoes">
+              <legend><span>Tipo de procedimento <em>*</em></span><span>Selecione uma opção</span></legend>
+              <div class="lista-checklist">
+                <label><input type="checkbox" name="tipos" value="Banho e tosa completa"> Banho e tosa completa</label>
+                <label><input type="checkbox" name="tipos" value="Banho simples"> Banho simples</label>
+                <label><input type="checkbox" name="tipos" value="Tosa higiênica"> Tosa higiênica</label>
+                <label><input type="checkbox" name="tipos" value="Hidratação e banho"> Hidratação e banho</label>
+                <label><input type="checkbox" name="tipos" value="Limpeza de ouvidos"> Limpeza de ouvidos</label>
+                <label><input type="checkbox" name="tipos" value="Corte de unhas"> Corte de unhas</label>
+                <label><input type="checkbox" name="tipos" value="Consulta preventiva"> Consulta preventiva</label>
+                <label><input type="checkbox" name="tipos" value="Vacina antirrábica"> Vacina antirrábica</label>
+              </div>
+              <span class="texto-ajuda">Você pode marcar mais de um serviço.</span>
+            </fieldset>
+          </div>
+        </fieldset>
+
+        <!-- Metade direita: descrição, observações e fotos -->
+        <fieldset class="grupo-formulario">
+          <legend>Detalhes do procedimento</legend>
+          <div class="grade-formulario">
+            <label class="campo-formulario campo-largo">
+              <span class="rotulo-com-ajuda"><span>Descrição do procedimento <em>*</em></span><small>Técnicas e produtos</small></span>
+              <textarea name="descricao" rows="4" maxlength="1200" required
+                placeholder="Técnicas usadas, produtos aplicados e detalhes do serviço..."></textarea>
+              <span class="contador-caracteres" data-contador="descricao">0 de 1200 caracteres</span>
+            </label>
+            <label class="campo-formulario campo-largo">
+              <span class="rotulo-com-ajuda"><span>Observações e comportamento</span><small>Opcional</small></span>
+              <textarea name="observacoes" rows="4" maxlength="500"
+                placeholder="Comportamento, sensibilidade ou outras observações..."></textarea>
+              <span class="contador-caracteres" data-contador="observacoes">0 de 500 caracteres</span>
+            </label>
+            <fieldset class="campo-formulario campo-largo grupo-opcoes">
+              <legend><span>Fotos do atendimento (opcional)</span><span>Antes e Depois</span></legend>
+              <div class="grade-fotos">
+                <label class="campo-formulario">
+                  Antes do procedimento
+                  <input name="foto-antes" type="file" accept="image/*">
+                </label>
+                <label class="campo-formulario">
+                  Depois do procedimento
+                  <input name="foto-depois" type="file" accept="image/*">
+                </label>
+              </div>
+            </fieldset>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="acoes-formulario">
+        <a id="cancelar-procedimento" class="botao botao-contorno" href="{{url_for ('pag_inicial')}}">Cancelar e voltar</a>
+        <button class="botao botao-laranja" type="submit">Salvar procedimento</button>
+      </div>
+      <p id="aviso-procedimento" class="aviso-formulario" role="status" aria-live="polite"></p>
+    </form>
+  </main>
+</body>
+</html>

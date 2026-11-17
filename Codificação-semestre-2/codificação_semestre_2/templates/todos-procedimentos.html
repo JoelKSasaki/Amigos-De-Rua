@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Miau Uau Pet Shop | Todos os procedimentos</title>
+  <script src="{{url_for('static', filename='js/tema.js')}}" ></script>
+  <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+  <script src="{{url_for('static', filename='js/aplicacao.js')}}" defer></script>
+</head>
+<body data-pagina="todos-procedimentos">
+  <!-- Cabeçalho da área de gestão -->
+  <header class="barra-superior">
+    <a class="marca" href="{{url_for ('welcome')}}" aria-label="Miau Uau Pet Shop, tela de boas-vindas">
+      <img src="{{url_for('static', filename='Miau-uau.jpeg')}}" alt="Logo Miau Uau Pet Shop">
+    </a>
+    <nav class="navegacao" aria-label="Navegação principal">
+      <a class="link-navegacao" href="{{url_for ('pag_inicial')}}">Início</a>
+      <a class="link-navegacao" href="{{url_for ('pets_cadastrados')}}">Cadastros</a>
+      <a class="link-navegacao ativo" href="{{url_for ('procedimentos_totais')}}">Procedimentos</a>
+      <a class="link-navegacao" href="{{url_for ('novos_pets')}}">Novo cadastro</a>
+      <a class="link-navegacao" href="{{url_for ('novos_procedimentos')}}">Novo procedimento</a>
+    </nav>
+    <button class="botao-tema" type="button" data-alternar-tema aria-label="Ativar modo noturno">
+      <span aria-hidden="true">☾</span><span class="texto-tema">Modo noturno</span>
+    </button>
+    <button class="perfil" type="button" aria-label="Perfil do proprietário">DP</button>
+  </header>
+
+  <!-- Histórico geral e busca por procedimento ou paciente -->
+  <main class="pagina">
+    <a class="voltar" href="{{url_for ('pag_inicial')}}">← Voltar ao painel</a>
+    <section class="titulo-pagina">
+      <p class="sobretitulo">GESTÃO DO PET SHOP</p>
+      <h1>Todos os procedimentos</h1>
+      <p class="texto-suave">Pesquise pelo ID do procedimento, nome do cachorro ou ID do cachorro.</p>
+    </section>
+    <p id="aviso-filtro-paciente" class="aviso-filtro" hidden></p>
+    <section class="filtros-lista filtros-um-campo">
+      <label class="campo-formulario campo-busca-lista">
+        Buscar procedimento
+        <input id="busca-todos-procedimentos" type="search"
+          placeholder="ID do procedimento, nome ou ID do cachorro">
+      </label>
+      <label class="campo-formulario campo-ordem">
+        Tipo de procedimento
+        <select id="filtro-tipo-procedimento">
+          <option value="">Todos os tipos</option>
+          <option>Banho e tosa completa</option>
+          <option>Banho simples</option>
+          <option>Tosa higiênica</option>
+          <option>Hidratação e banho</option>
+          <option>Limpeza de ouvidos</option>
+          <option>Corte de unhas</option>
+          <option>Consulta preventiva</option>
+          <option>Vacina antirrábica</option>
+        </select>
+      </label>
+      <a class="botao botao-laranja botao-filtro" href="{{url_for ('novos_procedimentos')}}">
+        <span class="icone-adicionar" aria-hidden="true">+</span>&nbsp; Novo procedimento
+      </a>
+    </section>
+    <p id="mensagem-sem-procedimentos" class="mensagem-vazia" hidden>Nenhum procedimento encontrado.</p>
+    <section id="lista-todos-procedimentos" class="lista-procedimentos" aria-label="Todos os procedimentos"></section>
+  </main>
+</body>
+</html>
