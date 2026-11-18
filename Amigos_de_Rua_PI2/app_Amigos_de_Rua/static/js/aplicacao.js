@@ -767,12 +767,29 @@ function configurarProcedimento() {
   });
 }
 
+/* ==================== Carregar os pets do banco (Supabase) ==================== */
+async function carregarPetsDoBanco() {
+  try {
+    const resposta = await fetch('/api/pets');
+    if (!resposta.ok) throw new Error('Resposta ' + resposta.status);
+    const pets = await resposta.json();
+    gravarPacientes(pets);
+  } catch (erro) {
+    console.error('Não foi possível carregar os pets do banco:', erro);
+  }
+}
+
 /* ==================== Inicialização dos componentes desta página ==================== */
-configurarTema();
-configurarPainel();
-configurarProcedimentosRecentes();
-configurarCadastro();
-configurarFicha();
-configurarTodosCadastros();
-configurarTodosProcedimentos();
-configurarProcedimento();
+async function iniciar() {
+  configurarTema();
+  await carregarPetsDoBanco();
+  configurarPainel();
+  configurarProcedimentosRecentes();
+  configurarCadastro();
+  configurarFicha();
+  configurarTodosCadastros();
+  configurarTodosProcedimentos();
+  configurarProcedimento();
+}
+
+iniciar();
