@@ -261,7 +261,7 @@ function classeDoAvatar(icone) {
 /* ==================== Cartões e busca do painel inicial ==================== */
 function criarCartaoPaciente(paciente) {
   const cartao = criarElemento('a', 'cartao-paciente');
-  cartao.href = `url_for('ficha_pet')?id=${encodeURIComponent(paciente.id)}`;
+  cartao.href = `/ficha-pet?id=${encodeURIComponent(paciente.id)}`;
   cartao.dataset.busca = [paciente.nome, paciente.raca, paciente.codigo, paciente.id]
     .join(' ').toLocaleLowerCase('pt-BR');
 
@@ -335,7 +335,7 @@ function configurarPainel() {
 function criarCartaoProcedimentoRecente(procedimento) {
   const paciente = localizarPaciente(procedimento.idPaciente);
   const cartao = criarElemento('a', 'cartao-procedimento-recente');
-  cartao.href = `{{url_for('ficha_pet')}}?id=${encodeURIComponent(procedimento.idPaciente)}`;
+  cartao.href = `/ficha-pet?id=${encodeURIComponent(procedimento.idPaciente)}`;
 
   const topo = criarElemento('div', 'topo-procedimento-recente');
   const identificador = criarElemento('span', 'id-procedimento-recente', procedimento.id);
@@ -420,25 +420,38 @@ function configurarCadastro() {
       .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
   });
 
-  formulario.addEventListener('submit', (evento) => {
+  formulario.addEventListener('submit', async (evento) => {
     evento.preventDefault();
     if (!formulario.reportValidity()) return;
 
     const dados = lerFormulario(formulario);
-    const pacientes = obterPacientes();
+
+    // Edição de pet existente: ainda só local (será ligada ao banco numa próxima etapa)
     if (paciente) {
+      const pacientes = obterPacientes();
       gravarPacientes(pacientes.map((item) => item.id === paciente.id
         ? { ...item, ...dados, id: paciente.id, codigo: paciente.codigo, criadoEm: item.criadoEm }
         : item));
-      window.location.href = `url_for('ficha_pet')?id=${encodeURIComponent(paciente.id)}&salvo=1`;
+      window.location.href = `/ficha-pet?id=${encodeURIComponent(paciente.id)}&salvo=1`;
       return;
     }
 
-    dados.id = `pet-${Date.now()}`;
-    dados.codigo = gerarCodigoPaciente(pacientes);
-    dados.criadoEm = new Date().toISOString();
-    gravarPacientes([...pacientes, dados]);
-    window.location.href = `url_for('ficha_pet')?id=${encodeURIComponent(dados.id)}&novo=1`;
+    // Pet novo: grava no Supabase através do Flask
+    botaoSalvar.disabled = true;
+    mensagem.textContent = 'Salvando...';
+    try {
+      const resposta = await fetch('/api/pets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      });
+      const resultado = await resposta.json();
+      if (!resposta.ok) throw new Error(resultado.erro || 'Erro ao salvar');
+      window.location.href = `/ficha-pet?id=${encodeURIComponent(resultado.id)}&novo=1`;
+    } catch (erro) {
+      mensagem.textContent = 'Não foi possível salvar: ' + erro.message;
+      botaoSalvar.disabled = false;
+    }
   });
 }
 
@@ -531,9 +544,9 @@ function configurarFicha() {
   });
 
   const idCodificado = encodeURIComponent(paciente.id);
-  document.querySelector('#botao-editar-ficha').href = `url_for('novos_pets')?id=${idCodificado}`;
-  document.querySelector('#botao-novo-procedimento-ficha').href = `url_for('novos_procedimentos')?id=${idCodificado}`;
-  document.querySelector('#botao-ver-procedimentos').href = `url_for('procedimentos_totais')?idPaciente=${idCodificado}`;
+  document.querySelector('#botao-editar-ficha').href = `/cadastrar-pet?id=	${idCodificado}`;
+  document.querySelector('#botao-novo-procedimento-ficha').href = `/novo-procedimento?id=${idCodificado}`;
+  document.querySelector('#botao-ver-procedimentos').href = `/todos-procedimentos?idPaciente=${idCodificado}`;
 
   const procedimentos = localizarProcedimentosDoPaciente(paciente.id);
   const recentes = procedimentos.slice(0, 5);
@@ -612,7 +625,7 @@ function configurarTodosCadastros() {
 function criarLinhaProcedimento(procedimento) {
   const paciente = localizarPaciente(procedimento.idPaciente);
   const cartao = criarElemento('a', 'cartao-procedimento');
-  cartao.href = `url_for('ficha_pet')?id=${encodeURIComponent(procedimento.idPaciente)}`;
+  cartao.href = `/ficha-pet?id=${encodeURIComponent(procedimento.idPaciente)}`;
   const topo = criarElemento('div', 'cabecalho-historico');
   const identificador = criarElemento('span', 'identificador-procedimento', procedimento.id);
   tornarCopiavel(identificador, procedimento.id);
@@ -721,11 +734,11 @@ function configurarProcedimento() {
     document.querySelector('#detalhes-paciente-procedimento').textContent =
       `${paciente.raca || 'Raça não informada'} · Porte ${paciente.porte || 'não informado'}`;
     document.querySelector('#link-ficha-paciente').href =
-      `url_for('ficha_pet')?id=${encodeURIComponent(paciente.id)}`;
+      `/ficha-pet?id=${encodeURIComponent(paciente.id)}`;
     document.querySelector('#voltar-do-procedimento').href =
-      `url_for('ficha_pet')?id=${encodeURIComponent(paciente.id)}`;
+      `/ficha-pet?id=${encodeURIComponent(paciente.id)}`;
     document.querySelector('#cancelar-procedimento').href =
-      `url_for('ficha_pet')?id=${encodeURIComponent(paciente.id)}`;
+      `/ficha-pet?id=${encodeURIComponent(paciente.id)}`;
   }
 
   if (identificadorInicial) atualizarPacienteSelecionado(identificadorInicial);
@@ -763,16 +776,33 @@ function configurarProcedimento() {
     const registros = obterProcedimentos();
     registros.push(dados);
     localStorage.setItem(chaveProcedimentos, JSON.stringify(registros));
-    window.location.href = `url_for('ficha_pet')?id=${encodeURIComponent(dados.idPaciente)}&procedimento=salvo`;
+    window.location.href = `/ficha-pet?id=${encodeURIComponent(dados.idPaciente)}&procedimento=salvo`;
   });
 }
 
+/* ==================== Carregar os pets do banco (Supabase) ==================== */
+async function carregarPetsDoBanco() {
+  try {
+    const resposta = await fetch('/api/pets');
+    if (!resposta.ok) throw new Error('Resposta ' + resposta.status);
+    const pets = await resposta.json();
+    gravarPacientes(pets);
+  } catch (erro) {
+    console.error('Não foi possível carregar os pets do banco:', erro);
+  }
+}
+
 /* ==================== Inicialização dos componentes desta página ==================== */
-configurarTema();
-configurarPainel();
-configurarProcedimentosRecentes();
-configurarCadastro();
-configurarFicha();
-configurarTodosCadastros();
-configurarTodosProcedimentos();
-configurarProcedimento();
+async function iniciar() {
+  configurarTema();
+  await carregarPetsDoBanco();
+  configurarPainel();
+  configurarProcedimentosRecentes();
+  configurarCadastro();
+  configurarFicha();
+  configurarTodosCadastros();
+  configurarTodosProcedimentos();
+  configurarProcedimento();
+}
+
+iniciar();
