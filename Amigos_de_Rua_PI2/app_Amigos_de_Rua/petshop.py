@@ -94,7 +94,7 @@ def idade_para_meses(texto):
     return total
 
 
-# ---------- API: listar pets (GET) ----------
+# ---------- API: pets ----------
 
 @app.route("/api/pets")
 def api_listar_pets():
@@ -131,8 +131,6 @@ def api_listar_pets():
         })
     return jsonify(pets)
 
-
-# ---------- API: cadastrar pet novo (POST) ----------
 
 @app.route("/api/pets", methods=["POST"])
 def api_criar_pet():
@@ -171,6 +169,91 @@ def api_criar_pet():
         }).execute()
 
         return jsonify({"id": str(novo.data[0]["id_pet"])}), 201
+
+    except Exception as erro:
+        return jsonify({"erro": str(erro)}), 500
+
+
+# ---------- API: listas de serviços e profissionais ----------
+
+@app.route("/api/servicos")
+def api_listar_servicos():
+    resposta = supabase.table("servicos").select("*").order("id_servico").execute()
+    return jsonify([
+        {"id": s["id_servico"], "nome": s["tipo_servico"], "preco": float(s["preco_servico"])}
+        for s in resposta.data
+    ])
+
+
+@app.route("/api/profissionais")
+def api_listar_profissionais():
+    resposta = supabase.table("profissionais").select("*").order("id_profissional").execute()
+    return jsonify([
+        {"id": p["id_profissional"], "nome": p["nome_profissional"]}
+        for p in resposta.data
+    ])
+
+
+# ---------- API: procedimentos ----------
+
+@app.route("/api/procedimentos")
+def api_listar_procedimentos():
+    resposta = (
+        supabase.table("procedimentos")
+        .select("*, servicos(tipo_servico), profissionais(nome_profissional)")
+        .order("data_procedimento", desc=True)
+        .execute()
+    )
+
+    # Um atendimento com vários serviços vira várias linhas no banco.
+    # Aqui juntamos de volta num só (mesmo pet, data, profissional e textos).
+    grupos = {}
+    for linha in resposta.data:
+        chave = (
+            linha["id_pet"], linha["data_procedimento"], linha["id_profissional"],
+            linha["estado_anterior"], linha["estado_posterior"],
+        )
+        if chave not in grupos:
+            grupos[chave] = {
+                "id": f"proc-{linha['id_procedimento']}",
+                "idPaciente": str(linha["id_pet"]),
+                "data": linha["data_procedimento"],
+                "tipos": [],
+                "profissional": (linha.get("profissionais") or {}).get("nome_profissional", ""),
+                "descricao": linha["estado_anterior"],
+                "observacoes": linha["estado_posterior"],
+                "fotoAntes": "",
+                "fotoDepois": "",
+            }
+        nome_servico = (linha.get("servicos") or {}).get("tipo_servico")
+        if nome_servico:
+            grupos[chave]["tipos"].append(nome_servico)
+
+    return jsonify(list(grupos.values()))
+
+
+@app.route("/api/procedimentos", methods=["POST"])
+def api_criar_procedimento():
+    d = request.get_json()
+    try:
+        # uma linha no banco para cada serviço marcado
+        linhas = [
+            {
+                "id_pet": int(d["idPaciente"]),
+                "id_profissional": int(d["profissional"]),
+                "id_servico": int(id_servico),
+                "data_procedimento": d["data"],
+                "estado_anterior": d["descricao"],
+                "estado_posterior": d.get("observacoes") or "Sem observações",
+                "is_retorno": False,
+            }
+            for id_servico in d.get("servicos", [])
+        ]
+        if not linhas:
+            return jsonify({"erro": "Escolha pelo menos um serviço"}), 400
+
+        supabase.table("procedimentos").insert(linhas).execute()
+        return jsonify({"ok": True}), 201
 
     except Exception as erro:
         return jsonify({"erro": str(erro)}), 500
