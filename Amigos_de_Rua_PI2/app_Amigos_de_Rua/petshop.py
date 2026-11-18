@@ -1,6 +1,8 @@
 import os
+import re
+from datetime import datetime, timezone
 from dotenv import load_dotenv
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from supabase import create_client
 
 load_dotenv()  # lê o arquivo .env
@@ -44,7 +46,7 @@ def procedimentos_totais():
     return render_template('todos-procedimentos.html')
 
 
-# ---------- Funções que traduzem o banco para o formato do site ----------
+# ---------- Funções que traduzem entre o site e o banco ----------
 
 def formatar_peso(gramas):
     # 4800 -> "4,8 kg"
@@ -67,7 +69,32 @@ def formatar_idade(meses):
     return " e ".join(partes) if partes else "0 meses"
 
 
-# ---------- Rota que devolve a lista de pets em JSON ----------
+def peso_para_gramas(texto):
+    # "4,8 kg" -> 4800   |   "500 g" -> 500
+    texto = (texto or "").lower().replace(",", ".")
+    numero = re.search(r"\d+(\.\d+)?", texto)
+    if not numero:
+        return 0
+    valor = float(numero.group())
+    if "kg" in texto or "g" not in texto:
+        valor *= 1000
+    return int(round(valor))
+
+
+def idade_para_meses(texto):
+    # "3 anos e 2 meses" -> 38
+    texto = (texto or "").lower()
+    anos = re.search(r"(\d+)\s*an", texto)
+    meses = re.search(r"(\d+)\s*m", texto)
+    total = 0
+    if anos:
+        total += int(anos.group(1)) * 12
+    if meses:
+        total += int(meses.group(1))
+    return total
+
+
+# ---------- API: listar pets (GET) ----------
 
 @app.route("/api/pets")
 def api_listar_pets():
@@ -103,6 +130,50 @@ def api_listar_pets():
             "criadoEm": p["data_criacao"],
         })
     return jsonify(pets)
+
+
+# ---------- API: cadastrar pet novo (POST) ----------
+
+@app.route("/api/pets", methods=["POST"])
+def api_criar_pet():
+    d = request.get_json()
+    agora = datetime.now(timezone.utc).isoformat()
+
+    try:
+        # 1) Tutor: só cria se esse CPF ainda não existir
+        existente = (
+            supabase.table("cadastros_tutor")
+            .select("cpf_tutor")
+            .eq("cpf_tutor", d["cpf"])
+            .execute()
+        )
+        if not existente.data:
+            supabase.table("cadastros_tutor").insert({
+                "cpf_tutor": d["cpf"],
+                "nome_tutor": d["tutor"],
+                "telefone_tutor": d.get("telefone") or None,
+                "nis_tutor": d["nis"],
+                "data_criacao": agora,
+            }).execute()
+
+        # 2) Pet: ligado ao tutor pelo CPF
+        novo = supabase.table("cadastros_pet").insert({
+            "nome_pet": d["nome"],
+            "raca_pet": d.get("raca") or "",
+            "porte_pet": d["porte"],
+            "cor_pet": d.get("cor") or "",
+            "peso_grama": peso_para_gramas(d.get("peso")),
+            "esta_castrado": d.get("castrado") == "Sim",
+            "observacoes_pet": d.get("alergias") or None,
+            "idade_aprox_meses": idade_para_meses(d.get("idade")),
+            "cpf_tutor": d["cpf"],
+            "data_criacao": agora,
+        }).execute()
+
+        return jsonify({"id": str(novo.data[0]["id_pet"])}), 201
+
+    except Exception as erro:
+        return jsonify({"erro": str(erro)}), 500
 
 
 if __name__ == "__main__":

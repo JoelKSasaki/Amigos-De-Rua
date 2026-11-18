@@ -420,25 +420,38 @@ function configurarCadastro() {
       .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
   });
 
-  formulario.addEventListener('submit', (evento) => {
+  formulario.addEventListener('submit', async (evento) => {
     evento.preventDefault();
     if (!formulario.reportValidity()) return;
 
     const dados = lerFormulario(formulario);
-    const pacientes = obterPacientes();
+
+    // Edição de pet existente: ainda só local (será ligada ao banco numa próxima etapa)
     if (paciente) {
+      const pacientes = obterPacientes();
       gravarPacientes(pacientes.map((item) => item.id === paciente.id
         ? { ...item, ...dados, id: paciente.id, codigo: paciente.codigo, criadoEm: item.criadoEm }
         : item));
-      window.location.href = `url_for('ficha_pet')?id=${encodeURIComponent(paciente.id)}&salvo=1`;
+      window.location.href = `/ficha-pet?id=${encodeURIComponent(paciente.id)}&salvo=1`;
       return;
     }
 
-    dados.id = `pet-${Date.now()}`;
-    dados.codigo = gerarCodigoPaciente(pacientes);
-    dados.criadoEm = new Date().toISOString();
-    gravarPacientes([...pacientes, dados]);
-    window.location.href = `url_for('ficha_pet')?id=${encodeURIComponent(dados.id)}&novo=1`;
+    // Pet novo: grava no Supabase através do Flask
+    botaoSalvar.disabled = true;
+    mensagem.textContent = 'Salvando...';
+    try {
+      const resposta = await fetch('/api/pets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      });
+      const resultado = await resposta.json();
+      if (!resposta.ok) throw new Error(resultado.erro || 'Erro ao salvar');
+      window.location.href = `/ficha-pet?id=${encodeURIComponent(resultado.id)}&novo=1`;
+    } catch (erro) {
+      mensagem.textContent = 'Não foi possível salvar: ' + erro.message;
+      botaoSalvar.disabled = false;
+    }
   });
 }
 
