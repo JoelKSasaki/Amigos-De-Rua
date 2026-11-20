@@ -1,5 +1,5 @@
 # Amigos-De-Rua
-Códigos dos 6 semestre de Projeto Integrador - Profª Ana Travassos
+Códigos dos 6 semestres de Projeto Integrador
 
 - Geovanna Ferreira
 - Joel Kagohara Sasaki
