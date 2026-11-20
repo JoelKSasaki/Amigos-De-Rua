@@ -315,7 +315,7 @@ function configurarPainel() {
       const conteudo = [paciente.nome, paciente.raca, paciente.codigo, paciente.id]
         .join(' ').toLocaleLowerCase('pt-BR');
       return conteudo.includes(consulta);
-    });
+    }).slice(0,6);
     grade.replaceChildren(...encontrados.map(criarCartaoPaciente));
     mensagemVazia.hidden = encontrados.length > 0;
   }
