@@ -1131,45 +1131,27 @@ body[data-pagina="cadastro"] .grupo-dados-tutor {
 
 /* ==================== Tela de boas-vindas ao clicar na logo ==================== */
 .pagina-bem-vindo {
-  display: grid;
-  place-items: center;
-  background: linear-gradient(180deg, var(--cor-fundo-cartao) 0 50%, var(--cor-destaque) 50% 100%);
+  background: linear-gradient(
+    90deg,
+    var(--cor-destaque) 0 50%,
+    var(--cor-fundo-cartao) 50% 100%
+  );
 }
 
 .tela-bem-vindo {
-  display: grid;
-  width: 100%;
-  min-height: 100vh;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-  align-items: center;
-  justify-items: center;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: 1fr;
 }
 
 .botao-bem-vindo {
-  grid-row: 2;
-  display: grid;
-  width: clamp(220px, 34vw, 430px);
-  min-height: clamp(100px, 18vh, 170px);
-  place-items: center;
-  border: 5px solid var(--branco);
-  border-radius: var(--raio-grande);
-  background: var(--cor-acao);
-  box-shadow: var(--cor-sombra-acao);
-  color: var(--branco);
-  font-family: var(--fonte-titulo);
-  font-size: var(--tamanho-fonte-3);
-  font-weight: 900;
-  transition: transform 0.18s ease, background 0.18s ease;
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .logo-bem-vindo {
+  grid-column: 2;
   grid-row: 1;
-  width: min(80%, 240px);
-  max-height: 180px;
-  object-fit: contain;
 }
-
 .botao-bem-vindo:hover {
   transform: scale(1.03);
   background: var(--cor-acao-hover);
@@ -2586,6 +2568,4 @@ body[data-pagina="cadastro"] .grupo-sexo .opcao-radio input[type="radio"]:checke
   border-color: var(--branco);
   background: radial-gradient(circle, var(--cor-destaque-escura) 0 4px, var(--branco) 5px);
 }
-
-
 
