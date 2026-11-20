@@ -1,5 +1,5 @@
 # Amigos-De-Rua
-Código em Python do 1º semestre de Projeto Integrador - Profª Ana Travassos
+Códigos dos 6 semestre de Projeto Integrador - Profª Ana Travassos
 
 - Geovanna Ferreira
 - Joel Kagohara Sasaki
