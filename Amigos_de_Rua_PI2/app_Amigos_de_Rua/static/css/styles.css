@@ -45,14 +45,11 @@
   --espaco-5: 30px;
   /* A mesma distância lateral é usada pelo cabeçalho e por todas as páginas. */
   --margem-lateral: clamp(16px, 4vw, 64px);
-  /* Escala tipográfica única: rótulos, texto, subtítulos e títulos. */
+  /* Quatro tamanhos tipográficos compartilhados pelo site. */
   --tamanho-fonte-1: 12px;
-  --tamanho-fonte-2: 12px;
-  --tamanho-fonte-3: 16px;
-  --tamanho-fonte-4: 16px;
-  --tamanho-fonte-5: 24px;
-  --tamanho-fonte-6: 24px;
-  --tamanho-fonte-7: 32px;
+  --tamanho-fonte-2: 16px;
+  --tamanho-fonte-3: 24px;
+  --tamanho-fonte-4: 32px;
   --fonte-texto: 'Montserrat', Arial, sans-serif;
   --fonte-titulo: 'Montserrat', Arial, sans-serif;
 }
@@ -103,7 +100,7 @@ body {
   background: var(--cor-fundo);
   color: var(--cor-texto);
   font-family: var(--fonte-texto);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 a {
@@ -138,12 +135,19 @@ h3 {
 /* ==================== Cabeçalho, logo e navegação ==================== */
 .barra-superior {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--espaco-4);
   min-height: 72px;
   padding: 8px var(--margem-lateral);
   border-bottom: 1px solid var(--cor-borda);
   background: var(--cor-fundo-cartao);
+}
+
+/* Controles de conta e tema ficam ocultos até serem habilitados. */
+.barra-superior .botao-tema,
+.barra-superior .perfil {
+  display: none;
 }
 
 .marca {
@@ -161,11 +165,12 @@ h3 {
 
 .navegacao {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 25px;
   align-self: stretch;
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 700;
 }
 
@@ -203,7 +208,7 @@ h3 {
   border-radius: 99px;
   background: var(--cor-fundo-cartao);
   color: var(--cor-destaque);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 700;
   cursor: pointer;
 }
@@ -213,7 +218,7 @@ h3 {
 }
 
 .botao-tema > span:first-child {
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 .perfil {
@@ -261,7 +266,7 @@ h3 {
 h1 {
   margin-bottom: 6px;
   color: var(--cor-destaque-escura);
-  font-size: var(--tamanho-fonte-5);
+  font-size: var(--tamanho-fonte-3);
   line-height: 1.15;
   letter-spacing: -0.7px;
 }
@@ -269,14 +274,14 @@ h1 {
 h2 {
   margin: 0 0 4px;
   color: var(--cor-destaque-escura);
-  font-size: var(--tamanho-fonte-4);
+  font-size: var(--tamanho-fonte-2);
   line-height: 1.2;
 }
 
 .texto-suave {
   margin-bottom: 0;
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 .estado-unidade {
@@ -289,7 +294,7 @@ h2 {
   border-radius: 99px;
   background: var(--cor-fundo-cartao);
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 600;
   white-space: nowrap;
 }
@@ -311,7 +316,7 @@ h2 {
   display: inline-block;
   margin-bottom: 20px;
   color: var(--cor-destaque);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 700;
 }
 
@@ -334,7 +339,7 @@ h2 {
 }
 
 .campo-busca > span {
-  font-size: var(--tamanho-fonte-4);
+  font-size: var(--tamanho-fonte-2);
   line-height: 1;
   transform: rotate(-20deg);
 }
@@ -345,7 +350,7 @@ h2 {
   outline: 0;
   background: var(--cor-transparente);
   color: var(--cor-texto);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 .campo-busca input::placeholder,
@@ -368,23 +373,23 @@ h2 {
 }
 
 .cabecalho-secao .texto-suave {
-  font-size: var(--tamanho-fonte-2);
+  font-size: var(--tamanho-fonte-1);
 }
 
 .cabecalho-secao h2 {
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 .link-texto {
   color: var(--cor-destaque);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 700;
   white-space: nowrap;
 }
 
 .link-texto span {
   padding-left: 3px;
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 .grade-pacientes {
@@ -425,7 +430,7 @@ h2 {
   height: 52px;
   place-items: center;
   border-radius: 14px;
-  font-size: var(--tamanho-fonte-5);
+  font-size: var(--tamanho-fonte-3);
 }
 
 .avatar-creme {
@@ -457,21 +462,21 @@ h2 {
 .dados-paciente h3 {
   margin: 0 0 3px;
   color: var(--cor-destaque);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 .dados-paciente p {
   overflow: hidden;
   margin: 0 0 6px;
   color: var(--cor-texto);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .texto-abrir-ficha {
   color: var(--cor-destaque);
-  font-size: var(--tamanho-fonte-2);
+  font-size: var(--tamanho-fonte-1);
   font-weight: 700;
 }
 
@@ -484,7 +489,7 @@ h2 {
   padding-bottom: 4px;
   border-bottom: 1px solid var(--cor-borda);
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 400;
   cursor: copy;
   text-overflow: ellipsis;
@@ -516,14 +521,14 @@ h2 {
 .metadados-paciente small {
   margin-bottom: 3px;
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-2);
+  font-size: var(--tamanho-fonte-1);
   font-weight: 500;
   letter-spacing: 0.35px;
 }
 
 .metadados-paciente b {
   color: var(--cor-texto);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 600;
 }
 
@@ -535,11 +540,11 @@ h2 {
 
 .cabecalho-procedimentos h2 {
   margin-bottom: 4px;
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 .cabecalho-procedimentos .texto-suave {
-  font-size: var(--tamanho-fonte-2);
+  font-size: var(--tamanho-fonte-1);
 }
 
 .mensagem-vazia {
@@ -577,12 +582,18 @@ h2 {
   padding: 0 18px;
   border: 1px solid var(--cor-transparente);
   border-radius: var(--raio-pequeno);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 800;
   text-align: center;
   cursor: pointer;
   transition: background 0.15s ease, transform 0.15s ease;
 }
+
+/* Quatro tamanhos compartilhados de botão. */
+.botao-metade { width: 50%; }
+.botao-total { width: 100%; }
+.botao-pequeno { min-height: 36px; padding: 0 12px; }
+.botao-minusculo { min-height: 28px; padding: 4px 8px; font-size: var(--tamanho-fonte-1); }
 
 .botao:hover {
   transform: translateY(-1px);
@@ -606,6 +617,16 @@ h2 {
 
 .botao-laranja:hover {
   background: var(--cor-acao-hover);
+}
+
+.botao-roxo {
+  background: var(--cor-destaque);
+  color: var(--branco);
+  box-shadow: var(--cor-sombra-hover);
+}
+
+.botao-roxo:hover {
+  background: var(--cor-destaque-escura);
 }
 
 /* ==================== Páginas de cadastro e procedimento ==================== */
@@ -639,6 +660,10 @@ h2 {
   box-shadow: var(--cor-sombra);
 }
 
+body[data-pagina="cadastro"] .grupo-dados-tutor {
+  background: var(--cor-fundo-campo);
+}
+
 .grupo-formulario > legend {
   float: left;
   width: 100%;
@@ -647,7 +672,7 @@ h2 {
   border-bottom: 1px solid var(--cor-borda);
   color: var(--cor-destaque);
   font-family: var(--fonte-titulo);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 600;
 }
 
@@ -667,7 +692,7 @@ h2 {
   gap: 7px;
   color: var(--cor-texto);
   font-family: var(--fonte-texto);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 600;
 }
 
@@ -688,7 +713,7 @@ h2 {
   outline: 0;
   background: var(--cor-fundo-campo);
   color: var(--cor-texto);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 400;
 }
 
@@ -731,7 +756,7 @@ h2 {
   border: 0;
   color: var(--cor-texto);
   font-family: var(--fonte-texto);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 600;
 }
 
@@ -752,7 +777,7 @@ h2 {
   border-radius: var(--raio-pequeno);
   background: var(--cor-fundo-campo);
   color: var(--cor-texto);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 500;
   cursor: pointer;
 }
@@ -795,7 +820,7 @@ h2 {
   border: 1px solid var(--cor-borda);
   border-radius: 12px;
   background: var(--cor-fundo-campo);
-  font-size: var(--tamanho-fonte-4);
+  font-size: var(--tamanho-fonte-2);
 }
 
 .opcoes-icones input:checked + span {
@@ -850,7 +875,7 @@ h2 {
 .paciente-selecionado h2 {
   margin: 0 0 3px;
   color: var(--cor-destaque);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 .paciente-selecionado .link-texto {
@@ -871,7 +896,7 @@ h2 {
 
 .acoes-cadastro-aberto h2 {
   margin-bottom: 4px;
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 .botoes-cadastro-aberto {
@@ -891,7 +916,7 @@ h2 {
   min-height: 18px;
   margin: 12px 0 0;
   color: var(--cor-destaque);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 700;
   text-align: right;
 }
@@ -910,7 +935,7 @@ h2 {
   overflow: hidden;
   color: var(--cor-texto);
   background: var(--cor-fundo-campo);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   text-overflow: ellipsis;
 }
 
@@ -959,21 +984,21 @@ h2 {
 .nome-paciente-recente {
   margin: 0;
   color: var(--cor-destaque);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 700;
 }
 
 .tipo-procedimento-recente {
   margin: 0;
   color: var(--cor-texto);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 600;
 }
 
 .data-procedimento-recente,
 .id-procedimento-recente {
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-2);
+  font-size: var(--tamanho-fonte-1);
 }
 
 .id-procedimento-recente {
@@ -1006,7 +1031,7 @@ h2 {
 
 .dado-ficha small {
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 400;
 }
 
@@ -1020,13 +1045,13 @@ h2 {
   align-items: center;
   gap: 8px;
   color: var(--cor-acao);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 700;
 }
 
 .icone-alerta {
   color: var(--cor-acao);
-  font-size: var(--tamanho-fonte-4);
+  font-size: var(--tamanho-fonte-2);
 }
 
 .cartao-dados-tutor {
@@ -1047,12 +1072,12 @@ h2 {
 
 .linha-dado-tutor small {
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 .linha-dado-tutor strong {
   color: var(--cor-texto);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 600;
 }
 
@@ -1094,7 +1119,7 @@ h2 {
   place-items: center;
   border: 2px solid var(--branco);
   border-radius: 50%;
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   line-height: 1;
 }
 
@@ -1108,17 +1133,21 @@ h2 {
 .pagina-bem-vindo {
   display: grid;
   place-items: center;
-  background: linear-gradient(90deg, var(--cor-destaque) 0 50%, var(--cor-fundo-cartao) 50% 100%);
+  background: linear-gradient(180deg, var(--cor-fundo-cartao) 0 50%, var(--cor-destaque) 50% 100%);
 }
 
 .tela-bem-vindo {
   display: grid;
   width: 100%;
   min-height: 100vh;
-  place-items: center;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  justify-items: center;
 }
 
 .botao-bem-vindo {
+  grid-row: 2;
   display: grid;
   width: clamp(220px, 34vw, 430px);
   min-height: clamp(100px, 18vh, 170px);
@@ -1129,9 +1158,16 @@ h2 {
   box-shadow: var(--cor-sombra-acao);
   color: var(--branco);
   font-family: var(--fonte-titulo);
-  font-size: var(--tamanho-fonte-5);
+  font-size: var(--tamanho-fonte-3);
   font-weight: 900;
   transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.logo-bem-vindo {
+  grid-row: 1;
+  width: min(80%, 240px);
+  max-height: 180px;
+  object-fit: contain;
 }
 
 .botao-bem-vindo:hover {
@@ -1302,11 +1338,12 @@ body[data-pagina="cadastro"] .titulo-pagina {
 
 body[data-pagina="cadastro"] .titulo-pagina h1 {
   margin-bottom: 8px;
-  font-size: var(--tamanho-fonte-5);
+  font-size: var(--tamanho-fonte-3);
 }
 
-body[data-pagina="cadastro"] .titulo-pagina .texto-suave {
-  font-size: var(--tamanho-fonte-3);
+body[data-pagina="cadastro"] .titulo-pagina .texto-suave,
+body[data-pagina="procedimento"] .titulo-pagina .texto-suave {
+  font-size: var(--tamanho-fonte-2);
 }
 
 body[data-pagina="cadastro"] .grade-dupla {
@@ -1325,7 +1362,7 @@ body[data-pagina="cadastro"] .grupo-formulario > legend {
   margin-bottom: 4px;
   padding: 0;
   border: 0;
-  font-size: var(--tamanho-fonte-4);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 600;
 }
 
@@ -1333,7 +1370,7 @@ body[data-pagina="cadastro"] .descricao-grupo {
   clear: both;
   margin: 0 0 20px;
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 body[data-pagina="cadastro"] .grade-formulario {
@@ -1352,7 +1389,7 @@ body[data-pagina="cadastro"] .campo-formulario textarea {
   border: 0;
   border-radius: 14px;
   background: var(--cor-fundo);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 body[data-pagina="cadastro"] .campo-formulario textarea {
@@ -1367,7 +1404,7 @@ body[data-pagina="cadastro"] .campo-foto {
 
 body[data-pagina="cadastro"] .rotulo-foto {
   color: var(--cor-texto);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 600;
 }
 
@@ -1382,7 +1419,7 @@ body[data-pagina="cadastro"] .seletor-foto {
   border-radius: 22px;
   background: var(--cor-fundo);
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   text-align: center;
   cursor: pointer;
 }
@@ -1391,7 +1428,7 @@ body[data-pagina="cadastro"] .seletor-foto small {
   display: inline-block;
   margin-top: 8px;
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 body[data-pagina="cadastro"] .icone-foto {
@@ -1402,7 +1439,7 @@ body[data-pagina="cadastro"] .icone-foto {
   border-radius: 50%;
   background: var(--branco);
   color: var(--cor-destaque);
-  font-size: var(--tamanho-fonte-5);
+  font-size: var(--tamanho-fonte-3);
   box-shadow: var(--cor-sombra);
 }
 
@@ -1412,11 +1449,14 @@ body[data-pagina="cadastro"] .icone-foto svg {
 }
 
 body[data-pagina="cadastro"] .botao-selecionar-foto {
-  padding: 10px 18px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 8px;
   border-radius: 14px;
   background: var(--branco);
   color: var(--cor-destaque);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-1);
   font-weight: 600;
   box-shadow: var(--cor-sombra);
 }
@@ -1446,7 +1486,7 @@ body[data-pagina="cadastro"] .grupo-sexo .opcao-radio {
   border: 0;
   border-radius: 14px;
   background: var(--cor-fundo);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 body[data-pagina="cadastro"] .grupo-porte .opcao-radio:has(input:checked),
@@ -1474,7 +1514,7 @@ body[data-pagina="procedimento"] .pagina-formulario {
 
 body[data-pagina="procedimento"] .voltar {
   margin-bottom: 8px;
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 500;
 }
 
@@ -1484,10 +1524,6 @@ body[data-pagina="procedimento"] .titulo-pagina {
 
 body[data-pagina="procedimento"] .titulo-pagina h1 {
   margin-bottom: 2px;
-  font-size: var(--tamanho-fonte-6);
-}
-
-body[data-pagina="procedimento"] .titulo-pagina .texto-suave {
   font-size: var(--tamanho-fonte-3);
 }
 
@@ -1517,7 +1553,7 @@ body[data-pagina="procedimento"] .identificacao-paciente-procedimento {
 
 body[data-pagina="procedimento"] .paciente-selecionado h2 {
   margin: 0;
-  font-size: var(--tamanho-fonte-4);
+  font-size: var(--tamanho-fonte-2);
 }
 
 body[data-pagina="procedimento"] .codigo-paciente-procedimento {
@@ -1527,7 +1563,7 @@ body[data-pagina="procedimento"] .codigo-paciente-procedimento {
   background: var(--cor-destaque-suave);
   color: var(--cor-destaque);
   font: inherit;
-  font-size: var(--tamanho-fonte-4);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 600;
   cursor: pointer;
 }
@@ -1545,12 +1581,12 @@ body[data-pagina="procedimento"] .codigo-paciente-procedimento:focus-visible {
 body[data-pagina="procedimento"] #detalhes-paciente-procedimento {
   grid-column: 1 / -1;
   margin: 2px 0 0;
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 body[data-pagina="procedimento"] .paciente-selecionado .link-texto {
   margin-left: auto;
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 body[data-pagina="procedimento"] .grade-dupla {
@@ -1577,7 +1613,7 @@ body[data-pagina="procedimento"] .grade-formulario {
 body[data-pagina="procedimento"] .campo-formulario {
   gap: 6px;
   margin-bottom: 14px;
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 600;
 }
 
@@ -1590,7 +1626,7 @@ body[data-pagina="procedimento"] .campo-formulario textarea {
   border-radius: 14px;
   background: var(--cor-fundo-cartao);
   box-shadow: var(--cor-sombra);
-  font-size: var(--tamanho-fonte-4);
+  font-size: var(--tamanho-fonte-2);
 }
 
 body[data-pagina="procedimento"] .campo-formulario textarea {
@@ -1604,7 +1640,7 @@ body[data-pagina="procedimento"] .grupo-opcoes > legend {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 8px;
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 600;
 }
 
@@ -1618,7 +1654,7 @@ body[data-pagina="procedimento"] .rotulo-com-ajuda {
 body[data-pagina="procedimento"] .rotulo-com-ajuda small,
 body[data-pagina="procedimento"] .grupo-opcoes > legend > span:last-child {
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-2);
+  font-size: var(--tamanho-fonte-1);
   font-weight: 400;
   font-style: italic;
 }
@@ -1636,7 +1672,7 @@ body[data-pagina="procedimento"] .lista-checklist label {
   border-radius: 12px;
   background: var(--cor-fundo-cartao);
   box-shadow: var(--cor-sombra);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 body[data-pagina="procedimento"] .lista-checklist input {
@@ -1661,7 +1697,7 @@ body[data-pagina="procedimento"] .lista-checklist input {
 body[data-pagina="procedimento"] .lista-checklist input::after {
   color: var(--branco);
   content: '✓';
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 700;
   line-height: 1;
   opacity: 0;
@@ -1678,7 +1714,7 @@ body[data-pagina="procedimento"] .lista-checklist input:checked::after {
 
 body[data-pagina="procedimento"] .texto-ajuda,
 body[data-pagina="procedimento"] .contador-caracteres {
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 body[data-pagina="procedimento"] .grade-fotos {
@@ -1700,7 +1736,7 @@ body[data-pagina="procedimento"] .grade-fotos input[type="file"] {
   border: 1px solid var(--cor-borda);
   border-radius: 10px;
   background: var(--cor-fundo);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 body[data-pagina="procedimento"] .acoes-formulario {
@@ -1717,7 +1753,7 @@ body[data-pagina="procedimento"] .acoes-formulario button {
   min-height: 54px;
   justify-content: center;
   border-radius: 16px;
-  font-size: var(--tamanho-fonte-4);
+  font-size: var(--tamanho-fonte-2);
 }
 
 /* ==================== Lista de todos os cadastros ==================== */
@@ -1741,11 +1777,11 @@ body[data-pagina="todos-cadastros"] .titulo-pagina {
 
 body[data-pagina="todos-cadastros"] .titulo-pagina h1 {
   margin-bottom: 6px;
-  font-size: var(--tamanho-fonte-6);
+  font-size: var(--tamanho-fonte-3);
 }
 
 body[data-pagina="todos-cadastros"] .titulo-pagina .texto-suave {
-  font-size: var(--tamanho-fonte-4);
+  font-size: var(--tamanho-fonte-2);
   line-height: 1.3;
 }
 
@@ -1754,7 +1790,7 @@ body[data-pagina="todos-cadastros"] .botao-novo-cadastro-lista {
   min-height: 48px;
   padding: 0 22px;
   border-radius: 16px;
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 body[data-pagina="todos-cadastros"] .painel-filtros-cadastros {
@@ -1777,7 +1813,7 @@ body[data-pagina="todos-cadastros"] .campo-busca-lista {
 }
 
 body[data-pagina="todos-cadastros"] .campo-busca-lista input {
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 body[data-pagina="todos-cadastros"] .grupos-filtros-cadastros {
@@ -1795,14 +1831,14 @@ body[data-pagina="todos-cadastros"] .grupo-segmentado {
   border-radius: 12px;
   background: var(--cor-fundo);
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 600;
 }
 
 body[data-pagina="todos-cadastros"] .grupo-segmentado > span {
   padding: 0 8px;
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 700;
 }
 
@@ -1828,12 +1864,13 @@ body[data-pagina="todos-cadastros"] .ordenacao-cadastros {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 56px;
+  min-height: 38px;
+  margin-left: auto;
   padding: 8px 16px;
   border-radius: 18px;
   background: var(--cor-fundo);
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 600;
 }
 
@@ -1854,7 +1891,7 @@ body[data-pagina="todos-cadastros"] .botao-limpar-filtros {
   border: 0;
   background: var(--cor-transparente);
   color: var(--cor-destaque);
-  font-size: var(--tamanho-fonte-4);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 600;
   cursor: pointer;
 }
@@ -1870,7 +1907,7 @@ body[data-pagina="todos-cadastros"] .resumo-lista-cadastros > p {
   flex: 1;
   margin: 0;
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 600;
 }
 
@@ -1882,11 +1919,6 @@ body[data-pagina="todos-cadastros"] .resumo-lista-cadastros > p::after {
   background: var(--cor-borda);
   content: '';
   vertical-align: middle;
-}
-
-body[data-pagina="todos-cadastros"] .ordenacao-cadastros {
-  min-height: 38px;
-  margin-left: auto;
 }
 
 body[data-pagina="todos-cadastros"] .grade-pacientes-todos {
@@ -1913,16 +1945,16 @@ body[data-pagina="todos-cadastros"] .grade-pacientes-todos .avatar-paciente {
 }
 
 body[data-pagina="todos-cadastros"] .grade-pacientes-todos .dados-paciente h3 {
-  font-size: var(--tamanho-fonte-4);
+  font-size: var(--tamanho-fonte-2);
 }
 
 body[data-pagina="todos-cadastros"] .grade-pacientes-todos .dados-paciente p {
   margin-bottom: 4px;
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 body[data-pagina="todos-cadastros"] .grade-pacientes-todos .texto-abrir-ficha {
-  font-size: var(--tamanho-fonte-2);
+  font-size: var(--tamanho-fonte-1);
 }
 
 body[data-pagina="todos-cadastros"] .grade-pacientes-todos .metadados-paciente {
@@ -1932,18 +1964,18 @@ body[data-pagina="todos-cadastros"] .grade-pacientes-todos .metadados-paciente {
 }
 
 body[data-pagina="todos-cadastros"] .grade-pacientes-todos .metadados-paciente small {
-  font-size: var(--tamanho-fonte-2);
+  font-size: var(--tamanho-fonte-1);
 }
 
 body[data-pagina="todos-cadastros"] .grade-pacientes-todos .metadados-paciente b {
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
   top: 14px;
   right: 14px;
   max-width: 90px;
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 .identificador-cartao-paciente:hover {
@@ -1975,7 +2007,7 @@ body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
   border-radius: 50%;
   background: var(--cor-destaque);
   color: var(--branco);
-  font-size: var(--tamanho-fonte-4);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 700;
   line-height: 1;
 }
@@ -1999,12 +2031,12 @@ body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
 
   body[data-pagina="procedimento"] .titulo-pagina h1,
   body[data-pagina="todos-cadastros"] .titulo-pagina h1 {
-    font-size: var(--tamanho-fonte-4);
+    font-size: var(--tamanho-fonte-2);
   }
 
   body[data-pagina="procedimento"] .titulo-pagina .texto-suave,
   body[data-pagina="todos-cadastros"] .titulo-pagina .texto-suave {
-    font-size: var(--tamanho-fonte-3);
+    font-size: var(--tamanho-fonte-2);
   }
 
   body[data-pagina="procedimento"] .paciente-selecionado {
@@ -2070,7 +2102,7 @@ body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
   }
 
   body[data-pagina="cadastro"] .titulo-pagina h1 {
-    font-size: var(--tamanho-fonte-5);
+    font-size: var(--tamanho-fonte-3);
   }
 
   body[data-pagina="cadastro"] .grupo-formulario {
@@ -2078,7 +2110,7 @@ body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
   }
 
   body[data-pagina="cadastro"] .grupo-formulario > legend {
-    font-size: var(--tamanho-fonte-4);
+    font-size: var(--tamanho-fonte-2);
   }
 
   body[data-pagina="cadastro"] .seletor-foto {
@@ -2123,19 +2155,24 @@ body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
 
 .texto-resumo-ficha h1 {
   margin-bottom: 4px;
-  font-size: var(--tamanho-fonte-4);
+  font-size: var(--tamanho-fonte-2);
 }
 
 .texto-id-ficha {
   margin: 5px 0 0;
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 400;
 }
 
 .texto-id-ficha strong {
   color: var(--cor-destaque);
   font-weight: 600;
+  cursor: copy;
+}
+
+.texto-id-ficha strong:hover {
+  color: var(--cor-acao);
 }
 
 .acoes-resumo-ficha {
@@ -2144,9 +2181,8 @@ body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
   margin-left: auto;
 }
 
-.botao-procedimento-grande {
+.botao-total {
   display: flex;
-  width: 100%;
   margin-bottom: 16px;
 }
 
@@ -2165,7 +2201,7 @@ body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
 
 .titulo-bloco-ficha h2 {
   margin: 0;
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 .selo-ficha {
@@ -2173,7 +2209,7 @@ body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
   border-radius: 99px;
   background: var(--cor-destaque-suave);
   color: var(--cor-destaque);
-  font-size: var(--tamanho-fonte-2);
+  font-size: var(--tamanho-fonte-1);
   font-weight: 700;
 }
 
@@ -2200,13 +2236,13 @@ body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
 
 .dado-ficha small {
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-2);
+  font-size: var(--tamanho-fonte-1);
   font-weight: 400;
 }
 
 .dado-ficha strong {
   color: var(--cor-texto);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 600;
   overflow-wrap: anywhere;
 }
@@ -2238,7 +2274,7 @@ body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
   border-radius: 50%;
   background: var(--cor-fundo);
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-2);
+  font-size: var(--tamanho-fonte-1);
 }
 
 .lista-historico,
@@ -2273,10 +2309,11 @@ body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
   gap: 12px;
   margin: 0;
   padding: 16px;
-  border-bottom: 1px solid var(--cor-borda);
+  border-bottom: 0;
 }
 
 .resumo-historico {
+  flex: 1;
   display: grid;
   gap: 4px;
   min-width: 0;
@@ -2285,13 +2322,34 @@ body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
 .data-historico,
 .identificador-procedimento {
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-2);
+  font-size: var(--tamanho-fonte-1);
+}
+
+.data-historico {
+  justify-self: start;
+  padding: 4px 8px;
+  border-radius: var(--raio-pequeno);
+  background: var(--cor-fundo-campo);
 }
 
 .identificador-procedimento {
+  display: inline-flex;
+  width: fit-content;
+  padding: 4px 8px;
+  border: 1px solid var(--cor-destaque-suave);
+  border-radius: var(--raio-pequeno);
+  background: var(--cor-destaque-suave);
   color: var(--cor-destaque);
   font-weight: 700;
   cursor: copy;
+}
+
+.identificacao-procedimento {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .identificador-procedimento:hover {
@@ -2302,14 +2360,44 @@ body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
 .cartao-procedimento h2 {
   margin: 0 0 10px;
   color: var(--cor-texto);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
 }
 
 .cartao-procedimento .texto-historico {
   margin: 0 0 4px;
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   line-height: 1.4;
+}
+
+/* Ajustes do cartão na página de procedimentos */
+body[data-pagina="todos-procedimentos"] .cartao-procedimento {
+  padding: 8px 12px;
+}
+
+body[data-pagina="todos-procedimentos"] .cartao-procedimento .cabecalho-historico {
+  padding: 0;
+  margin: 0 0 4px;
+}
+
+body[data-pagina="todos-procedimentos"] .cartao-procedimento .identificador-procedimento {
+  margin: 0;
+}
+
+body[data-pagina="todos-procedimentos"] .cartao-procedimento .data-historico {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: var(--raio-pequeno);
+  background: var(--cor-fundo-campo);
+}
+
+body[data-pagina="ficha"] .cartao-historico .cabecalho-historico .data-historico {
+  display: inline-block;
+  width: fit-content;
+  padding: 4px 8px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-pequeno);
+  background-color: var(--cor-fundo-campo);
 }
 
 .tipos-historico {
@@ -2319,9 +2407,15 @@ body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
   font-weight: 700;
 }
 
+.paciente-no-procedimento {
+  margin: 0;
+  color: var(--cor-texto-secundario);
+  font-size: var(--tamanho-fonte-2);
+}
+
 .linha-tipo-historico {
   color: var(--cor-texto);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   line-height: 1.25;
 }
 
@@ -2361,7 +2455,7 @@ body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
 
 .rotulo-historico {
   color: var(--cor-texto-secundario);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 400;
 }
 
@@ -2373,7 +2467,7 @@ body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
 
 .valor-historico {
   color: var(--cor-texto);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 400;
   line-height: 1.4;
 }
@@ -2428,7 +2522,7 @@ body[data-pagina="todos-cadastros"] .identificador-cartao-paciente {
   border-radius: var(--raio-pequeno);
   background: var(--cor-destaque-suave);
   color: var(--cor-destaque);
-  font-size: var(--tamanho-fonte-3);
+  font-size: var(--tamanho-fonte-2);
   font-weight: 700;
 }
 
@@ -2492,3 +2586,6 @@ body[data-pagina="cadastro"] .grupo-sexo .opcao-radio input[type="radio"]:checke
   border-color: var(--branco);
   background: radial-gradient(circle, var(--cor-destaque-escura) 0 4px, var(--branco) 5px);
 }
+
+
+
