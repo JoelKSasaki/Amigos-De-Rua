@@ -1131,31 +1131,39 @@ body[data-pagina="cadastro"] .grupo-dados-tutor {
 
 /* ==================== Tela de boas-vindas ao clicar na logo ==================== */
 .pagina-bem-vindo {
-  background: linear-gradient(
-    90deg,
-    var(--cor-destaque) 0 50%,
-    var(--cor-fundo-cartao) 50% 100%
-  );
+  display: grid;
+  place-items: center;
+  background: linear-gradient(90deg, var(--cor-destaque) 0 50%, var(--cor-fundo-cartao) 50% 100%);
 }
 
 .tela-bem-vindo {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-template-rows: 1fr;
+  display: grid;
+  width: 100%;
+  min-height: 100vh;
+  place-items: center;
 }
 
 .botao-bem-vindo {
-  grid-column: 1;
-  grid-row: 1;
+  display: grid;
+  width: clamp(220px, 34vw, 430px);
+  min-height: clamp(100px, 18vh, 170px);
+  place-items: center;
+  border: 5px solid var(--branco);
+  border-radius: var(--raio-grande);
+  background: var(--cor-acao);
+  box-shadow: var(--cor-sombra-acao);
+  color: var(--branco);
+  font-family: var(--fonte-titulo);
+  font-size: var(--tamanho-fonte-5);
+  font-weight: 900;
+  transition: transform 0.18s ease, background 0.18s ease;
 }
 
-.logo-bem-vindo {
-  grid-column: 2;
-  grid-row: 1;
-}
 .botao-bem-vindo:hover {
   transform: scale(1.03);
   background: var(--cor-acao-hover);
 }
+
 
 /* ==================== Ajustes para telas médias e pequenas ==================== */
 @media (max-width: 1000px) {
