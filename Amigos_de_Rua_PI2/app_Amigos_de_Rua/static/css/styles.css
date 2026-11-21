@@ -1154,7 +1154,7 @@ body[data-pagina="cadastro"] .grupo-dados-tutor {
   box-shadow: var(--cor-sombra-acao);
   color: var(--branco);
   font-family: var(--fonte-titulo);
-  font-size: var(--tamanho-fonte-5);
+  font-size: var(--tamanho-fonte-3);
   font-weight: 900;
   transition: transform 0.18s ease, background 0.18s ease;
 }
