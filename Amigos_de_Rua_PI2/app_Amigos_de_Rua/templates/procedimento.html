@@ -64,21 +64,16 @@
             </label>
             <label class="campo-formulario campo-largo">
               <span>Profissional responsável <em>*</em></span>
-              <input name="profissional" type="text" maxlength="120" placeholder="Nome de quem realizou o atendimento" required>
+              <select name="profissional" required>
+  <option value="">Selecione o profissional</option>
+</select>
             </label>
 
             <!-- Lista de serviços selecionáveis em conjunto -->
             <fieldset class="campo-formulario campo-largo grupo-opcoes">
               <legend><span>Tipo de procedimento <em>*</em></span><span>Selecione uma opção</span></legend>
-              <div class="lista-checklist">
-                <label><input type="checkbox" name="tipos" value="Banho e tosa completa"> Banho e tosa completa</label>
-                <label><input type="checkbox" name="tipos" value="Banho simples"> Banho simples</label>
-                <label><input type="checkbox" name="tipos" value="Tosa higiênica"> Tosa higiênica</label>
-                <label><input type="checkbox" name="tipos" value="Hidratação e banho"> Hidratação e banho</label>
-                <label><input type="checkbox" name="tipos" value="Limpeza de ouvidos"> Limpeza de ouvidos</label>
-                <label><input type="checkbox" name="tipos" value="Corte de unhas"> Corte de unhas</label>
-                <label><input type="checkbox" name="tipos" value="Consulta preventiva"> Consulta preventiva</label>
-                <label><input type="checkbox" name="tipos" value="Vacina antirrábica"> Vacina antirrábica</label>
+              <div class="lista-checklist" id="lista-servicos"></div>
+                
               </div>
               <span class="texto-ajuda">Você pode marcar mais de um serviço.</span>
             </fieldset>

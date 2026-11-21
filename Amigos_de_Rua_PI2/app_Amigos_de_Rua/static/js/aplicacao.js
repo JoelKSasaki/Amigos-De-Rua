@@ -703,6 +703,25 @@ function configurarProcedimento() {
       codigoPaciente.setAttribute('aria-label', `Copiar ID ${codigo}`);
     }, 1200);
   });
+    // Preenche as listas com os dados do banco
+  const campoProfissional = formulario.elements.profissional;
+  profissionaisDoBanco.forEach((profissional) => {
+    const opcao = document.createElement('option');
+    opcao.value = profissional.id;
+    opcao.textContent = profissional.nome;
+    campoProfissional.append(opcao);
+  });
+
+  const listaServicos = document.querySelector('#lista-servicos');
+  servicosDoBanco.forEach((servico) => {
+    const rotulo = document.createElement('label');
+    const caixa = document.createElement('input');
+    caixa.type = 'checkbox';
+    caixa.name = 'tipos';
+    caixa.value = servico.id;
+    rotulo.append(caixa, ` ${servico.nome}`);
+    listaServicos.append(rotulo);
+  });
   const dataAtendimento = formulario.elements.data;
   const agora = new Date();
   const deslocamento = agora.getTimezoneOffset() * 60000;
@@ -753,30 +772,43 @@ function configurarProcedimento() {
     atualizarContagem();
   });
 
-  formulario.addEventListener('submit', (evento) => {
+    formulario.addEventListener('submit', async (evento) => {
     evento.preventDefault();
     if (!formulario.reportValidity()) return;
 
-    const tipos = [...formulario.querySelectorAll('[name="tipos"]:checked')]
+    const servicos = [...formulario.querySelectorAll('[name="tipos"]:checked')]
       .map((campo) => campo.value);
-    if (tipos.length === 0) {
+    if (servicos.length === 0) {
       mensagem.textContent = 'Marque pelo menos um tipo de procedimento.';
       formulario.querySelector('[name="tipos"]')?.focus();
       return;
     }
 
-    const dados = Object.fromEntries(new FormData(formulario).entries());
-    dados.tipos = tipos;
-    dados.id = `procedimento-${Date.now()}`;
-    dados.idPaciente = seletor.value;
-    dados.fotoAntes = formulario.elements['foto-antes'].files[0]?.name || '';
-    dados.fotoDepois = formulario.elements['foto-depois'].files[0]?.name || '';
-    delete dados['foto-antes'];
-    delete dados['foto-depois'];
-    const registros = obterProcedimentos();
-    registros.push(dados);
-    localStorage.setItem(chaveProcedimentos, JSON.stringify(registros));
-    window.location.href = `/ficha-pet?id=${encodeURIComponent(dados.idPaciente)}&procedimento=salvo`;
+    const dados = {
+      idPaciente: seletor.value,
+      profissional: formulario.elements.profissional.value,
+      data: formulario.elements.data.value,
+      descricao: formulario.elements.descricao.value,
+      observacoes: formulario.elements.observacoes.value,
+      servicos
+    };
+
+    const botaoSalvar = formulario.querySelector('[type="submit"]');
+    if (botaoSalvar) botaoSalvar.disabled = true;
+    mensagem.textContent = 'Salvando...';
+    try {
+      const resposta = await fetch('/api/procedimentos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      });
+      const resultado = await resposta.json();
+      if (!resposta.ok) throw new Error(resultado.erro || 'Erro ao salvar');
+      window.location.href = `/ficha-pet?id=${encodeURIComponent(dados.idPaciente)}&procedimento=salvo`;
+    } catch (erro) {
+      mensagem.textContent = 'Não foi possível salvar: ' + erro.message;
+      if (botaoSalvar) botaoSalvar.disabled = false;
+    }
   });
 }
 
