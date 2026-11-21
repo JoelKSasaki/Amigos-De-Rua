@@ -661,7 +661,7 @@ h2 {
 }
 
 body[data-pagina="cadastro"] .grupo-dados-tutor {
-  background: var(--cor-fundo-campo);
+  background: var(--cor-fundo);
 }
 
 .grupo-formulario > legend {
@@ -715,6 +715,21 @@ body[data-pagina="cadastro"] .grupo-dados-tutor {
   color: var(--cor-texto);
   font-size: var(--tamanho-fonte-2);
   font-weight: 400;
+}
+
+.entrada-idade {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.entrada-idade input[type="text"] {
+  flex: 0 1 auto;
+  width: auto;
+  min-width: 48px;
+  max-width: 100%;
+  text-align: center;
 }
 
 .campo-formulario textarea {
@@ -1700,6 +1715,23 @@ body[data-pagina="procedimento"] .lista-checklist input:checked {
 }
 
 body[data-pagina="procedimento"] .lista-checklist input:checked::after {
+  opacity: 1;
+}
+
+body[data-pagina="procedimento"] .lista-checklist input[type="radio"]:checked {
+  border-color: var(--cor-acao);
+  background: var(--branco);
+}
+
+body[data-pagina="procedimento"] .lista-checklist input[type="radio"]::after {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cor-acao);
+  content: '';
+}
+
+body[data-pagina="procedimento"] .lista-checklist input[type="radio"]:checked::after {
   opacity: 1;
 }
 
