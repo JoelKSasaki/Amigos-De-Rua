@@ -280,7 +280,7 @@ function configurarProcedimentosRecentes() {
 function configurarSugestoesDeRaca() {
   const lista = document.querySelector('#lista-racas');
   if (!lista) return;
-  const opcoes = racasDeExemplo.map((raca) => {
+  const opcoes = (racasDoBanco.length ? racasDoBanco : racasDeExemplo).map((raca) => {
     const opcao = document.createElement('option');
     opcao.value = raca;
     return opcao;
@@ -341,31 +341,17 @@ function configurarCadastro() {
     if (!formulario.reportValidity()) return;
 
     const dados = lerFormulario(formulario);
-
-    // Edição de pet existente: ainda só local (será ligada ao banco numa próxima etapa)
-    if (paciente) {
-      const pacientes = obterPacientes();
-      gravarPacientes(pacientes.map((item) => item.id === paciente.id
-        ? { ...item, ...dados, id: paciente.id, codigo: paciente.codigo, criadoEm: item.criadoEm }
-        : item));
-      window.location.href = `/ficha-pet?id=${encodeURIComponent(paciente.id)}&salvo=1`;
-      return;
-    }
-
-    // Pet novo: grava no Supabase através do Flask
     botaoSalvar.disabled = true;
     mensagem.textContent = 'Salvando...';
     try {
-      const resposta = await fetch('/api/pets', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dados)
-      });
-      const resultado = await resposta.json();
-      if (!resposta.ok) throw new Error(resultado.erro || 'Erro ao salvar');
-      window.location.href = `/ficha-pet?id=${encodeURIComponent(resultado.id)}&novo=1`;
+      // Pet existente: edita (PUT). Pet novo: cadastra (POST).
+      const resultado = paciente
+        ? await enviarJson(`/api/pets/${encodeURIComponent(paciente.id)}`, 'PUT', dados)
+        : await enviarJson('/api/pets', 'POST', dados);
+      const aviso = paciente ? 'salvo=1' : 'novo=1';
+      window.location.href = `/ficha-pet?id=${encodeURIComponent(resultado.id)}&${aviso}`;
     } catch (erro) {
-      mensagem.textContent = 'Não foi possível salvar: ' + erro.message;
+      mensagem.textContent = `Não foi possível salvar: ${erro.message}`;
       botaoSalvar.disabled = false;
     }
   });
@@ -460,7 +446,7 @@ function configurarFicha() {
   });
 
   const idCodificado = encodeURIComponent(paciente.id);
-  document.querySelector('#botao-editar-ficha').href = `/cadastrar-pet?id=	${idCodificado}`;
+  document.querySelector('#botao-editar-ficha').href = `/cadastrar-pet?id=${idCodificado}`;
   document.querySelector('#botao-novo-procedimento-ficha').href = `/novo-procedimento?id=${idCodificado}`;
   document.querySelector('#botao-ver-procedimentos').href = `/todos-procedimentos?idPaciente=${idCodificado}`;
 
@@ -564,6 +550,11 @@ function configurarTodosProcedimentos() {
   const filtroPet = new URLSearchParams(window.location.search).get('idPaciente');
   const avisoFiltro = document.querySelector('#aviso-filtro-paciente');
   const mensagem = document.querySelector('#mensagem-sem-procedimentos');
+  servicosDoBanco.forEach((servico) => {
+    const opcao = document.createElement('option');
+    opcao.textContent = servico.nome;
+    filtroTipo.append(opcao);
+  });
   if (filtroPet) {
     const paciente = localizarPaciente(filtroPet);
     avisoFiltro.hidden = false;
@@ -619,6 +610,26 @@ function configurarProcedimento() {
       codigoPaciente.setAttribute('aria-label', `Copiar ID ${codigo}`);
     }, 1200);
   });
+  // Preenche as listas de profissional e de serviço com os dados do banco
+  const campoProfissional = formulario.elements.profissional;
+  profissionaisDoBanco.forEach((profissional) => {
+    const opcao = document.createElement('option');
+    opcao.value = profissional.id;
+    opcao.textContent = profissional.nome;
+    campoProfissional.append(opcao);
+  });
+
+  const listaServicos = document.querySelector('#lista-servicos');
+  servicosDoBanco.forEach((servico) => {
+    const rotulo = document.createElement('label');
+    const caixa = document.createElement('input');
+    caixa.type = 'checkbox';
+    caixa.name = 'tipos';
+    caixa.value = servico.id;
+    rotulo.append(caixa, ` ${servico.nome}`);
+    listaServicos.append(rotulo);
+  });
+
   const dataAtendimento = formulario.elements.data;
   const agora = new Date();
   const deslocamento = agora.getTimezoneOffset() * 60000;
@@ -669,49 +680,96 @@ function configurarProcedimento() {
     atualizarContagem();
   });
 
-  formulario.addEventListener('submit', (evento) => {
+  formulario.addEventListener('submit', async (evento) => {
     evento.preventDefault();
     if (!formulario.reportValidity()) return;
 
-    const tipos = [...formulario.querySelectorAll('[name="tipos"]:checked')]
+    const servicos = [...formulario.querySelectorAll('[name="tipos"]:checked')]
       .map((campo) => campo.value);
-    if (tipos.length === 0) {
+    if (servicos.length === 0) {
       mensagem.textContent = 'Marque pelo menos um tipo de procedimento.';
       formulario.querySelector('[name="tipos"]')?.focus();
       return;
     }
 
-    const dados = Object.fromEntries(new FormData(formulario).entries());
-    dados.tipos = tipos;
-    dados.id = `procedimento-${Date.now()}`;
-    dados.idPaciente = seletor.value;
-    dados.fotoAntes = formulario.elements['foto-antes'].files[0]?.name || '';
-    dados.fotoDepois = formulario.elements['foto-depois'].files[0]?.name || '';
-    delete dados['foto-antes'];
-    delete dados['foto-depois'];
-    const registros = obterProcedimentos();
-    registros.push(dados);
-    localStorage.setItem(chaveProcedimentos, JSON.stringify(registros));
-    window.location.href = `/ficha-pet?id=${encodeURIComponent(dados.idPaciente)}&procedimento=salvo`;
+    const dados = {
+      idPaciente: seletor.value,
+      profissional: formulario.elements.profissional.value,
+      data: formulario.elements.data.value,
+      descricao: formulario.elements.descricao.value,
+      observacoes: formulario.elements.observacoes.value,
+      servicos
+    };
+
+    const botaoSalvar = formulario.querySelector('[type="submit"]');
+    if (botaoSalvar) botaoSalvar.disabled = true;
+    mensagem.textContent = 'Salvando...';
+    try {
+      await enviarJson('/api/procedimentos', 'POST', dados);
+      window.location.href = `/ficha-pet?id=${encodeURIComponent(dados.idPaciente)}&procedimento=salvo`;
+    } catch (erro) {
+      mensagem.textContent = `Não foi possível salvar: ${erro.message}`;
+      if (botaoSalvar) botaoSalvar.disabled = false;
+    }
   });
 }
 
-/* ==================== Carregar os pets do banco (Supabase) ==================== */
-async function carregarPetsDoBanco() {
+/* ==================== Comunicação com o servidor (Flask + Supabase) ==================== */
+let servicosDoBanco = [];
+let profissionaisDoBanco = [];
+let racasDoBanco = [];
+
+async function buscarJson(endereco) {
+  const resposta = await fetch(endereco);
+  if (!resposta.ok) throw new Error(`${endereco} respondeu ${resposta.status}`);
+  return resposta.json();
+}
+
+async function enviarJson(endereco, metodo, dados) {
+  const resposta = await fetch(endereco, {
+    method: metodo,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dados)
+  });
+  let resultado = {};
   try {
-    const resposta = await fetch('/api/pets');
-    if (!resposta.ok) throw new Error('Resposta ' + resposta.status);
-    const pets = await resposta.json();
-    gravarPacientes(pets);
+    resultado = await resposta.json();
   } catch (erro) {
-    console.error('Não foi possível carregar os pets do banco:', erro);
+    // resposta sem JSON: usa a mensagem padrão abaixo
   }
+  if (!resposta.ok) {
+    throw new Error(resultado.erro || `O servidor respondeu com erro ${resposta.status}`);
+  }
+  return resultado;
+}
+
+async function carregarDadosDoBanco() {
+  const resultados = await Promise.allSettled([
+    buscarJson('/api/pets'),
+    buscarJson('/api/procedimentos'),
+    buscarJson('/api/servicos'),
+    buscarJson('/api/profissionais'),
+    buscarJson('/api/racas')
+  ]);
+  const [pets, procedimentos, servicos, profissionais, racas] = resultados;
+
+  if (pets.status === 'fulfilled') gravarPacientes(pets.value);
+  if (procedimentos.status === 'fulfilled') {
+    localStorage.setItem(chaveProcedimentos, JSON.stringify(procedimentos.value));
+  }
+  if (servicos.status === 'fulfilled') servicosDoBanco = servicos.value;
+  if (profissionais.status === 'fulfilled') profissionaisDoBanco = profissionais.value;
+  if (racas.status === 'fulfilled') racasDoBanco = racas.value;
+
+  resultados
+    .filter((resultado) => resultado.status === 'rejected')
+    .forEach((resultado) => console.error('Falha ao carregar do banco:', resultado.reason));
 }
 
 /* ==================== Inicialização dos componentes desta página ==================== */
 async function iniciar() {
   configurarTema();
-  await carregarPetsDoBanco();
+  await carregarDadosDoBanco();
   configurarPainel();
   configurarProcedimentosRecentes();
   configurarCadastro();
