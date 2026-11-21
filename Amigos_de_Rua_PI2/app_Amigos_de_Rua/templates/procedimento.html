@@ -12,7 +12,7 @@
   <!-- Cabeçalho da área de gestão -->
   <header class="barra-superior">
     <a class="marca" href="{{url_for ('welcome')}}" aria-label="Miau Uau Pet Shop, tela de boas-vindas">
-      <img src="{{url_for('static', filename='Miau-uau.jpeg')}}" alt="Logo Miau Uau Pet Shop">
+      <img src="{{url_for('static', filename='miau-uau.svg')}}" alt="Logo Miau Uau Pet Shop">
     </a>
     <nav class="navegacao" aria-label="Navegação principal">
       <a class="link-navegacao" href="{{url_for ('pag_inicial')}}">Início</a>
@@ -44,6 +44,9 @@
         <p id="detalhes-paciente-procedimento" class="texto-suave"></p>
       </div>
       <a id="link-ficha-paciente" class="link-texto" href="{{url_for ('novos_pets')}}">Abrir cadastro</a>
+      <button id="trocar-paciente-procedimento" class="botao botao-contorno botao-pequeno" type="button">
+        Trocar pet
+      </button>
     </section>
 
     <form id="formulario-procedimento" class="painel-formulario">
@@ -60,7 +63,7 @@
             </label>
             <label class="campo-formulario campo-largo">
               <span>Data do atendimento <em>*</em></span>
-              <input name="data" type="datetime-local" required>
+              <input name="data" type="datetime-local" max="" required>
             </label>
             <label class="campo-formulario campo-largo">
               <span>Profissional responsável <em>*</em></span>
@@ -69,30 +72,30 @@
               </select>
             </label>
 
-            <!-- Lista de serviços selecionáveis em conjunto -->
+            <!-- Escolha de um único serviço do banco de dados -->
             <fieldset class="campo-formulario campo-largo grupo-opcoes">
               <legend><span>Tipo de procedimento <em>*</em></span><span>Selecione uma opção</span></legend>
               <div class="lista-checklist" id="lista-servicos">
               </div>
-              <span class="texto-ajuda">Você pode marcar mais de um serviço.</span>
+              <span class="texto-ajuda">Selecione apenas um serviço.</span>
             </fieldset>
           </div>
         </fieldset>
 
-        <!-- Metade direita: descrição, observações e fotos -->
+        <!-- Metade direita: estados do atendimento e fotos -->
         <fieldset class="grupo-formulario">
           <legend>Detalhes do procedimento</legend>
           <div class="grade-formulario">
             <label class="campo-formulario campo-largo">
-              <span class="rotulo-com-ajuda"><span>Descrição do procedimento <em>*</em></span><small>Técnicas e produtos</small></span>
+              <span class="rotulo-com-ajuda"><span>Estado anterior <em>*</em></span><small>Antes do atendimento</small></span>
               <textarea name="descricao" rows="4" maxlength="1200" required
-                placeholder="Técnicas usadas, produtos aplicados e detalhes do serviço..."></textarea>
+                placeholder="Descreva como o pet chegou e as condições observadas antes do serviço..."></textarea>
               <span class="contador-caracteres" data-contador="descricao">0 de 1200 caracteres</span>
             </label>
             <label class="campo-formulario campo-largo">
-              <span class="rotulo-com-ajuda"><span>Observações e comportamento</span><small>Opcional</small></span>
+              <span class="rotulo-com-ajuda"><span>Estado posterior</span><small>Opcional</small></span>
               <textarea name="observacoes" rows="4" maxlength="500"
-                placeholder="Comportamento, sensibilidade ou outras observações..."></textarea>
+                placeholder="Descreva o resultado do atendimento e as condições do pet ao final..."></textarea>
               <span class="contador-caracteres" data-contador="observacoes">0 de 500 caracteres</span>
             </label>
             <!--fotos desativadas -->

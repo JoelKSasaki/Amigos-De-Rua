@@ -12,7 +12,7 @@
   <!-- Cabeçalho da área de gestão -->
   <header class="barra-superior">
     <a class="marca" href="{{url_for ('welcome')}}" aria-label="Miau Uau Pet Shop, tela de boas-vindas">
-      <img src="{{url_for('static', filename='Miau-uau.jpeg')}}" alt="Logo Miau Uau Pet Shop">
+      <img src="{{url_for('static', filename='miau-uau.svg')}}" alt="Logo Miau Uau Pet Shop">
     </a>
     <nav class="navegacao" aria-label="Navegação principal">
       <a class="link-navegacao" href="{{url_for ('pag_inicial')}}">Início</a>
@@ -72,10 +72,22 @@
             <label class="campo-formulario">
               Peso aproximado
               <input name="peso" type="text" maxlength="20" placeholder="Ex.: 4,8 kg">
+              <span id="aviso-peso-elevado" class="texto-ajuda" role="status" hidden>
+                Peso acima de 100 kg. Confira se o valor foi digitado corretamente.
+              </span>
             </label>
             <label class="campo-formulario">
               Idade estimada
-              <input name="idade" type="text" maxlength="40" placeholder="Ex.: 2 anos e 6 meses">
+              <div class="entrada-idade">
+                <input id="idade-anos" type="text" inputmode="numeric" size="2" aria-label="Anos">
+                <span>anos e</span>
+                <input id="idade-meses" type="text" inputmode="numeric" size="2" aria-label="Meses">
+                <span>meses</span>
+                <input name="idade" type="hidden">
+              </div>
+              <span id="aviso-idade-elevada" class="texto-ajuda" role="status" hidden>
+                Idade acima de 30 anos. Confira se o valor foi digitado corretamente.
+              </span>
             </label>
             <fieldset class="campo-formulario campo-largo grupo-opcoes grupo-porte">
               <legend>Porte do cão</legend>
@@ -124,7 +136,7 @@
         </fieldset>
 
         <!-- Metade direita: dados do tutor responsável pelo pet -->
-        <fieldset class="grupo-formulario">
+        <fieldset class="grupo-formulario grupo-dados-tutor">
           <legend>Dados do tutor responsável</legend>
           <p class="descricao-grupo">Informe os dados da pessoa responsável</p>
           <div class="grade-formulario">
@@ -148,7 +160,7 @@
             </label>
             <label class="campo-formulario campo-largo">
               Endereço residencial
-              <input name="endereco" type="text" maxlength="180" placeholder="Rua, número, bairro e complemento">
+              <input name="endereco" type="text" placeholder="Rua, número, bairro e complemento">
             </label>
           </div>
         </fieldset>

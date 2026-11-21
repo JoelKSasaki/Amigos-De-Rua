@@ -85,6 +85,14 @@ function formatarDataHora(data) {
   })}`;
 }
 
+function formatarCpf(valor) {
+  const numeros = String(valor || '').replace(/\D/g, '').slice(0, 11);
+  return numeros
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+}
+
 function obterTemaSalvo() {
   return window.miauUauTema?.obter() || 'claro';
 }
@@ -327,17 +335,104 @@ function configurarCadastro() {
     botaoSalvar.disabled = true;
   }
 
+  ['nome', 'raca', 'cor', 'tutor'].forEach((nomeCampo) => {
+    const campo = formulario.elements[nomeCampo];
+    const converterParaMaiusculas = () => {
+      const inicio = campo.selectionStart;
+      const fim = campo.selectionEnd;
+      campo.value = campo.value.toLocaleUpperCase('pt-BR');
+      campo.setSelectionRange(inicio, fim);
+    };
+    campo.addEventListener('input', converterParaMaiusculas);
+    converterParaMaiusculas();
+  });
+
+  const campoPeso = formulario.elements.peso;
+  const avisoPesoElevado = document.querySelector('#aviso-peso-elevado');
+  function atualizarAvisoPeso() {
+    const peso = Number(campoPeso.value.replace(',', '.').replace(/[^\d.]/g, ''));
+    avisoPesoElevado.hidden = !(peso > 100);
+  }
+  campoPeso.addEventListener('input', atualizarAvisoPeso);
+  atualizarAvisoPeso();
+
+  const campoIdade = formulario.elements.idade;
+  const campoAnos = formulario.querySelector('#idade-anos');
+  const campoMeses = formulario.querySelector('#idade-meses');
+  const avisoIdadeElevada = document.querySelector('#aviso-idade-elevada');
+  function atualizarAvisoIdade() {
+    const anos = Number.parseInt(campoAnos.value, 10) || 0;
+    const meses = Number.parseInt(campoMeses.value, 10) || 0;
+    const temIdade = campoAnos.value !== '' || campoMeses.value !== '';
+    campoIdade.value = temIdade ? `${anos} anos e ${meses} meses` : '';
+    campoAnos.size = Math.max(2, campoAnos.value.length + 1);
+    campoMeses.size = Math.max(2, campoMeses.value.length + 1);
+    avisoIdadeElevada.hidden = !(anos * 12 + meses > 360);
+  }
+
+  function atualizarCampoDeIdade(campo, normalizarMeses = false) {
+    campo.value = campo.value.replace(/\D/g, '');
+    if (normalizarMeses && Number(campo.value) >= 12) {
+      const anos = (Number.parseInt(campoAnos.value, 10) || 0)
+        + Math.floor(Number(campo.value) / 12);
+      campoAnos.value = String(anos);
+      campo.value = String(Number(campo.value) % 12);
+    }
+    atualizarAvisoIdade();
+  }
+
+  const anosSalvos = campoIdade.value.match(/(\d+)\s*anos?/i);
+  const mesesSalvos = campoIdade.value.match(/(\d+)\s*mes(?:es)?/i);
+  campoAnos.value = anosSalvos?.[1] || '';
+  campoMeses.value = mesesSalvos?.[1] || '';
+  campoAnos.addEventListener('input', () => atualizarCampoDeIdade(campoAnos));
+  campoMeses.addEventListener('input', () => atualizarCampoDeIdade(campoMeses, true));
+  atualizarAvisoIdade();
+
   const campoCpf = formulario.elements.cpf;
+  function cpfValido(valor) {
+    const numeros = valor.replace(/\D/g, '');
+    if (numeros.length !== 11 || /^(\d)\1+$/.test(numeros)) return false;
+
+    function calcularDigito(base, pesoInicial) {
+      const soma = [...base].reduce(
+        (total, numero, indice) => total + Number(numero) * (pesoInicial - indice),
+        0
+      );
+      const resto = (soma * 10) % 11;
+      return resto === 10 ? 0 : resto;
+    }
+
+    return calcularDigito(numeros.slice(0, 9), 10) === Number(numeros[9])
+      && calcularDigito(numeros.slice(0, 10), 11) === Number(numeros[10]);
+  }
+
   campoCpf.addEventListener('input', () => {
-    const numeros = campoCpf.value.replace(/\D/g, '').slice(0, 11);
-    campoCpf.value = numeros
-      .replace(/(\d{3})(\d)/, '$1.$2')
-      .replace(/(\d{3})(\d)/, '$1.$2')
-      .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    campoCpf.value = formatarCpf(campoCpf.value);
+    campoCpf.setCustomValidity('');
+  });
+  campoCpf.value = formatarCpf(campoCpf.value);
+
+  const campoNis = formulario.elements.nis;
+  campoNis.addEventListener('input', () => {
+    const numeros = campoNis.value.replace(/\D/g, '').slice(0, 11);
+    campoNis.value = numeros
+      .replace(/^(\d{3})(\d)/, '$1.$2')
+      .replace(/^(\d{3}\.\d{5})(\d)/, '$1.$2')
+      .replace(/^(\d{3}\.\d{5}\.\d{2})(\d)/, '$1-$2');
+  });
+
+  const campoTelefone = formulario.elements.telefone;
+  campoTelefone.addEventListener('input', () => {
+    const numeros = campoTelefone.value.replace(/\D/g, '').slice(0, 11);
+    campoTelefone.value = numeros
+      .replace(/^(\d{2})(\d)/, '($1) $2')
+      .replace(/(\d{4,5})(\d{4})$/, '$1-$2');
   });
 
   formulario.addEventListener('submit', async (evento) => {
     evento.preventDefault();
+    campoCpf.setCustomValidity(cpfValido(campoCpf.value) ? '' : 'Digite um CPF válido.');
     if (!formulario.reportValidity()) return;
 
     const dados = lerFormulario(formulario);
@@ -381,8 +476,8 @@ function criarCartaoHistorico(procedimento) {
   const detalhes = criarElemento('div', 'detalhes-historico');
   const campos = [
     ['Profissional responsável', procedimento.profissional || 'Não informado', '', 'rotulo-profissional'],
-    ['Descrição do procedimento', procedimento.descricao || 'Sem descrição.', '', 'rotulo-descricao'],
-    ['Observações', procedimento.observacoes || 'Nenhuma.', '', 'rotulo-observacoes']
+    ['Estado anterior', procedimento.descricao || 'Não informado.', '', 'rotulo-descricao'],
+    ['Estado posterior', procedimento.observacoes || 'Não informado.', '', 'rotulo-observacoes']
   ];
   campos.forEach(([rotulo, valor, classeValor, classeRotulo]) => {
     const campo = criarElemento('div', 'campo-historico');
@@ -437,7 +532,7 @@ function configurarFicha() {
     raca: paciente.raca, porte: paciente.porte, peso: paciente.peso,
     idade: paciente.idade, sexo: paciente.sexo, cor: paciente.cor,
     castrado: condicaoReprodutiva, alergias: paciente.alergias,
-    tutor: paciente.tutor, cpf: paciente.cpf, nis: paciente.nis, telefone: paciente.telefone,
+    tutor: paciente.tutor, cpf: formatarCpf(paciente.cpf), nis: paciente.nis, telefone: paciente.telefone,
     endereco: paciente.endereco
   };
   Object.entries(valores).forEach(([campo, valor]) => {
@@ -595,6 +690,7 @@ function configurarProcedimento() {
   const parametros = new URLSearchParams(window.location.search);
   const identificadorInicial = parametros.get('id');
   const seletor = document.querySelector('#seletor-paciente');
+  const botaoTrocarPaciente = document.querySelector('#trocar-paciente-procedimento');
   const campoSeletor = document.querySelector('#campo-selecionar-paciente');
   const painelPaciente = document.querySelector('#paciente-selecionado');
   const mensagem = document.querySelector('#aviso-procedimento');
@@ -623,7 +719,7 @@ function configurarProcedimento() {
   servicosDoBanco.forEach((servico) => {
     const rotulo = document.createElement('label');
     const caixa = document.createElement('input');
-    caixa.type = 'checkbox';
+    caixa.type = 'radio';
     caixa.name = 'tipos';
     caixa.value = servico.id;
     rotulo.append(caixa, ` ${servico.nome}`);
@@ -633,12 +729,16 @@ function configurarProcedimento() {
   const dataAtendimento = formulario.elements.data;
   const agora = new Date();
   const deslocamento = agora.getTimezoneOffset() * 60000;
-  dataAtendimento.value = new Date(agora.getTime() - deslocamento).toISOString().slice(0, 16);
+  const dataHoraAtual = new Date(agora.getTime() - deslocamento).toISOString().slice(0, 16);
+  dataAtendimento.value = dataHoraAtual;
+  dataAtendimento.max = dataHoraAtual;
 
   pacientes.forEach((paciente) => {
     const opcao = document.createElement('option');
     opcao.value = paciente.id;
-    opcao.textContent = `${paciente.nome} · ${paciente.raca || 'Raça não informada'}`;
+    const codigo = String(paciente.codigo || paciente.id);
+    const codigoVisivel = codigo.startsWith('#') ? codigo : `#${codigo}`;
+    opcao.textContent = `${paciente.nome} · ${codigoVisivel} · ${paciente.raca || 'Raça não informada'}`;
     seletor.append(opcao);
   });
 
@@ -670,6 +770,12 @@ function configurarProcedimento() {
 
   if (identificadorInicial) atualizarPacienteSelecionado(identificadorInicial);
   seletor.addEventListener('change', () => atualizarPacienteSelecionado(seletor.value));
+  botaoTrocarPaciente.addEventListener('click', () => {
+    seletor.value = '';
+    painelPaciente.hidden = true;
+    campoSeletor.hidden = false;
+    seletor.focus();
+  });
 
   formulario.querySelectorAll('textarea[maxlength]').forEach((campo) => {
     const contador = document.querySelector(`[data-contador="${campo.name}"]`);
@@ -687,7 +793,7 @@ function configurarProcedimento() {
     const servicos = [...formulario.querySelectorAll('[name="tipos"]:checked')]
       .map((campo) => campo.value);
     if (servicos.length === 0) {
-      mensagem.textContent = 'Marque pelo menos um tipo de procedimento.';
+      mensagem.textContent = 'Selecione um tipo de procedimento.';
       formulario.querySelector('[name="tipos"]')?.focus();
       return;
     }

@@ -12,7 +12,7 @@
   <!-- Cabeçalho da área de gestão -->
   <header class="barra-superior">
     <a class="marca" href="{{url_for ('welcome')}}" aria-label="Miau Uau Pet Shop, tela de boas-vindas">
-      <img src="{{url_for('static', filename='Miau-uau.jpeg')}}" alt="Logo Miau Uau Pet Shop">
+      <img src="{{url_for('static', filename='miau-uau.svg')}}" alt="Logo Miau Uau Pet Shop">
     </a>
     <nav class="navegacao" aria-label="Navegação principal">
       <a class="link-navegacao" href="{{url_for ('pag_inicial')}}">Início</a>
@@ -47,15 +47,16 @@
         <select id="filtro-tipo-procedimento">
           <option value="">Todos os tipos</option>
           <option>Tosa Higiênica</option>
-          <option>Banho e Tosa</option>
+          <option>Banho e Tosa </option>
           <option>Banho</option>
           <option>Corte de Unha</option>
           <option>Limpeza de Ouvido</option>
           <option>Escovação de Dente</option>
+          <option>Desembolo</option>
         </select>
       </label>
       <a class="botao botao-laranja botao-filtro" href="{{url_for ('novos_procedimentos')}}">
-        <span class="icone-adicionar" aria-hidden="true">+</span>&nbsp; Novo procedimento
+        +&nbsp; Novo procedimento
       </a>
     </section>
     <p id="mensagem-sem-procedimentos" class="mensagem-vazia" hidden>Nenhum procedimento encontrado.</p>
