@@ -1809,7 +1809,7 @@ body[data-pagina="todos-cadastros"] .campo-busca-lista input {
 
 body[data-pagina="todos-cadastros"] .grupos-filtros-cadastros {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 12px;
 }
 
