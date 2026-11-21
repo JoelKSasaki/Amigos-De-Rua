@@ -14,6 +14,7 @@
   --branco: #ffffff;
   --cor-fundo-cartao: var(--branco);
   --cor-fundo-campo: var(--branco);
+  --cor-fundo-tutor: #ceccd4;
   --cor-transparente: transparent;
   /* Texto padrão, texto de apoio, rótulos e dicas de preenchimento. */
   --cor-texto: #292432;
